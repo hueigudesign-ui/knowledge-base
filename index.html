@@ -3,16 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="硬了再上知識庫">
-    
     <link rel="apple-touch-icon" href="ai-team-icon.jpg">
 
     <title>內部專屬數位圖書館</title>
     <style>
-        /* Apple 手機 App 風格質感設計 */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #F5F5F7;
@@ -21,13 +18,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* 移除手機點擊時的藍色閃爍，更像原生 App */
             -webkit-tap-highlight-color: transparent;
-            /* 防止水平滑動破版 */
             overflow-x: hidden;
         }
         
-        /* 密碼鎖畫面 (手機版面適配) */
         #login-screen {
             height: 100vh;
             display: flex;
@@ -55,8 +49,6 @@
             border-radius: 12px;
             font-size: 16px;
             box-sizing: border-box;
-            /* 避免 iOS 輸入框自作主張放大畫面 */
-            font-size: 16px; 
         }
         button {
             background-color: #007AFF;
@@ -70,16 +62,15 @@
             width: 100%;
             transition: background-color 0.2s;
         }
-        button:active { background-color: #0056b3; } /* 手機按壓回饋 */
+        button:active { background-color: #0056b3; }
 
-        /* 主畫面與分類按鈕 */
+        /* 主畫面 */
         #main-content {
             display: none;
             width: 100%;
             max-width: 800px;
             padding: 15px;
             box-sizing: border-box;
-            /* 預留 iPhone 底部安全區距 */
             padding-bottom: 40px; 
         }
         .header {
@@ -90,7 +81,6 @@
             flex-direction: column;
             align-items: center;
         }
-        /* 團隊首圖視覺 (完美適配手機寬度) */
         .hero-image {
             width: 100%;
             border-radius: 16px;
@@ -98,11 +88,7 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.06);
             object-fit: cover;
         }
-        h2 {
-            font-size: 22px;
-            margin: 10px 0;
-            color: #1c1c1e;
-        }
+        h2 { font-size: 22px; margin: 10px 0; color: #1c1c1e; }
 
         .category-tabs {
             display: flex;
@@ -125,7 +111,6 @@
             color: white;
         }
 
-        /* 影片卡片區塊 */
         .video-card {
             background: white;
             border-radius: 20px;
@@ -134,6 +119,17 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.03);
             display: none;
         }
+        /* 針對可以點擊進入的卡片增加特效 */
+        .clickable-card {
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.2s;
+        }
+        .clickable-card:active {
+            border: 2px solid #007AFF;
+            background-color: #f8f8f8;
+        }
+        
         .video-title {
             font-size: 16px;
             font-weight: 600;
@@ -146,16 +142,48 @@
             border-radius: 12px;
             overflow: hidden;
             background: #f0f0f0;
-            /* 針對手機屏幕調整最佳高度，避免佔用太多垂直空間 */
             height: 250px; 
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #8e8e93;
+            font-size: 14px;
         }
-        iframe {
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* === 子頁面 (專區視圖) === */
+        #detail-view {
+            display: none;
             width: 100%;
-            height: 100%;
-            border: none;
+            max-width: 800px;
+            padding: 15px;
+            box-sizing: border-box;
+            padding-bottom: 80px; 
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 25px 0 10px 0;
+            color: #007AFF;
+        }
+        /* 固定在底部的返回鍵 */
+        .back-btn-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            z-index: 1000;
+        }
+        .back-btn {
+            background-color: #1c1c1e;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .resource-img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
     </style>
 </head>
@@ -173,7 +201,7 @@
 
     <div id="main-content">
         <div class="header">
-            <img src="team.jpg" alt="專案團隊合照" class="hero-image">
+            <img src="ai-team-icon.jpg" alt="專案團隊合照" class="hero-image">
             <h2>硬了再上｜數位知識庫</h2>
         </div>
         
@@ -185,7 +213,6 @@
         </div>
 
         <div id="video-list">
-            
             <div class="video-card project">
                 <div class="video-title">如何駕馭你的AI：有效協作指南</div>
                 <div class="video-container">
@@ -210,7 +237,7 @@
             <div class="video-card project">
                 <div class="video-title">時間vs金錢</div>
                 <div class="video-container">
-                    <iframe src="https://drive.google.com/file/d/1VihFiOUV0B4ehr7MvlEaPaRJbT3AuUn_/preview" allow="autoplay"></iframe>
+                    <iframe src="https://drive.google.com/file/d/1VihFiOUV0B4ehr7MvlEaPoRJbT3AuUn_/preview" allow="autoplay"></iframe>
                 </div>
             </div>
 
@@ -235,13 +262,13 @@
                 </div>
             </div>
 
-            <div class="video-card fmbos">
-                <div class="video-title">打造「三位一體」數位作業系統</div>
-                <div class="video-container">
-                    <iframe src="https://drive.google.com/file/d/1dDIL1EiDYnH7CmiLixMiwU00hlcBoirr/preview" allow="autoplay"></iframe>
+            <div class="video-card fmbos clickable-card" onclick="openDetailView()">
+                <div class="video-title">打造「三位一體」數位作業系統 <span style="color: #007AFF;">➔ 點擊進入專區</span></div>
+                <div class="video-container" style="height: 100px; background-color: #e5e5ea; color: #1c1c1e; font-weight: bold;">
+                    📁 內含：簡報 PDF / 懶人包 / 完整影片
                 </div>
             </div>
-
+            
             <div class="video-card podcast">
                 <div class="video-title">打造專業藍圖：一個職涯轉型的個案研究</div>
                 <div class="video-container">
@@ -262,12 +289,36 @@
                     <iframe src="https://drive.google.com/file/d/17tRsepc555QQlAx89dUKXwSrfzbJvpL1/preview" allow="autoplay"></iframe>
                 </div>
             </div>
+        </div>
+    </div>
 
+    <div id="detail-view">
+        <div class="header">
+            <h2>打造「三位一體」數位作業系統</h2>
+            <p style="color: #8e8e93; font-size: 14px; margin-top: -10px;">專案詳細資料</p>
+        </div>
+
+        <div class="section-title">🎥 1. 完整影片</div>
+        <div class="video-container" style="height: 250px;">
+            <iframe src="https://drive.google.com/file/d/1dDIL1EiDYnH7CmiLixMiwU00hlcBoirr/preview" allow="autoplay"></iframe>
+        </div>
+
+        <div class="section-title">📄 2. 簡報 PDF</div>
+        <div class="video-container" style="height: 400px; background: transparent;">
+            <iframe src="簡報.pdf" style="width: 100%; height: 100%; border-radius: 12px; border: 1px solid #d1d1d6;"></iframe>
+        </div>
+
+        <div class="section-title">💡 3. 懶人包</div>
+        <div style="width: 100%; margin-top: 15px;">
+            <img src="懶人包.jpg" alt="三位一體數位作業系統懶人包" class="resource-img">
+        </div>
+
+        <div class="back-btn-container">
+            <button class="back-btn" onclick="closeDetailView()">⬅ 返回總覽</button>
         </div>
     </div>
 
     <script>
-        // 密碼設定
         const SECRET_PWD = "8888";
 
         function checkPassword() {
@@ -276,14 +327,12 @@
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
                 filterCategory('all'); 
-                // 針對手機鍵盤：解鎖後自動收起鍵盤
                 document.getElementById("pwd").blur();
             } else {
                 document.getElementById("error-msg").style.display = "block";
             }
         }
 
-        // 綁定 Enter (手機上的 Go/前往 鍵) 解鎖
         document.getElementById("pwd").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
@@ -291,7 +340,6 @@
             }
         });
 
-        // 分類切換邏輯
         function filterCategory(category) {
             const btns = document.querySelectorAll('.tab-btn');
             btns.forEach(btn => btn.classList.remove('active'));
@@ -305,8 +353,19 @@
                     card.style.display = 'none';
                 }
             });
-            
-            // 切換分類後自動捲動回最上方，確保手機體驗流暢
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 子頁面切換邏輯
+        function openDetailView() {
+            document.getElementById("main-content").style.display = "none";
+            document.getElementById("detail-view").style.display = "block";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function closeDetailView() {
+            document.getElementById("detail-view").style.display = "none";
+            document.getElementById("main-content").style.display = "block";
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
