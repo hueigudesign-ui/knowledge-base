@@ -10,9 +10,19 @@
 
     <title>內部專屬數位圖書館</title>
     <style>
+        /* === 升級版 Apple 質感美學 === */
+        :root {
+            --apple-bg: #F5F5F7;
+            --apple-card: #FFFFFF;
+            --apple-text-main: #1D1D1F;
+            --apple-text-sub: #86868B;
+            --apple-blue: #007AFF;
+            --apple-blue-hover: #0056b3;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #F5F5F7;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--apple-bg);
             margin: 0;
             padding: 0;
             display: flex;
@@ -20,8 +30,10 @@
             align-items: center;
             -webkit-tap-highlight-color: transparent;
             overflow-x: hidden;
+            color: var(--apple-text-main);
         }
         
+        /* 密碼鎖畫面 */
         #login-screen {
             height: 100vh;
             display: flex;
@@ -33,157 +45,231 @@
             box-sizing: border-box;
         }
         .login-box {
-            background: white;
-            padding: 30px 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            background: var(--apple-card);
+            padding: 40px 24px;
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
             text-align: center;
             width: 100%;
-            max-width: 350px;
+            max-width: 320px;
+        }
+        .login-box h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
         input[type="password"] {
             width: 100%;
-            padding: 15px;
-            margin: 20px 0;
-            border: 1px solid #d1d1d6;
-            border-radius: 12px;
+            padding: 16px;
+            margin: 24px 0;
+            border: 1.5px solid #E5E5EA;
+            border-radius: 14px;
             font-size: 16px;
             box-sizing: border-box;
+            background-color: #FAFAFC;
+            transition: border-color 0.2s;
         }
-        button {
-            background-color: #007AFF;
+        input[type="password"]:focus {
+            outline: none;
+            border-color: var(--apple-blue);
+        }
+        button.primary-btn {
+            background-color: var(--apple-blue);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 20px;
-            font-size: 16px;
+            padding: 16px 32px;
+            border-radius: 14px;
+            font-size: 17px;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s, transform 0.1s;
         }
-        button:active { background-color: #0056b3; }
+        button.primary-btn:active { 
+            background-color: var(--apple-blue-hover);
+            transform: scale(0.98);
+        }
 
         /* 主畫面 */
         #main-content {
             display: none;
             width: 100%;
             max-width: 800px;
-            padding: 15px;
+            padding: 20px 16px;
             box-sizing: border-box;
-            padding-bottom: 40px; 
+            padding-bottom: 60px; 
         }
         .header {
             text-align: center;
-            margin-top: 10px;
-            margin-bottom: 25px;
+            margin-top: 16px;
+            margin-bottom: 32px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         .hero-image {
             width: 100%;
-            border-radius: 16px;
-            margin-bottom: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             object-fit: cover;
         }
-        h2 { font-size: 22px; margin: 10px 0; color: #1c1c1e; }
+        .header h2 { 
+            font-size: 28px; 
+            font-weight: 700;
+            margin: 0; 
+            letter-spacing: -0.5px;
+        }
 
         .category-tabs {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin-bottom: 25px;
+            gap: 10px;
+            margin-bottom: 32px;
             flex-wrap: wrap;
         }
         .tab-btn {
-            background-color: #e5e5ea;
-            color: #1c1c1e;
-            padding: 10px 16px;
+            background-color: #E5E5EA;
+            color: var(--apple-text-main);
+            padding: 10px 18px;
             border-radius: 20px;
             border: none;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 15px;
+            font-weight: 600;
+            transition: background-color 0.2s, color 0.2s;
         }
         .tab-btn.active {
-            background-color: #007AFF;
+            background-color: var(--apple-text-main);
             color: white;
         }
 
+        /* 影片卡片：更精緻的陰影與圓角 */
         .video-card {
-            background: white;
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            background: var(--apple-card);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
             display: none;
         }
-        /* 針對可以點擊進入的卡片增加特效 */
         .clickable-card {
             cursor: pointer;
-            border: 2px solid transparent;
-            transition: border 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         .clickable-card:active {
-            border: 2px solid #007AFF;
-            background-color: #f8f8f8;
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            background-color: #FAFAFC;
         }
         
         .video-title {
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 600;
-            margin-bottom: 12px;
-            color: #1c1c1e;
+            margin-bottom: 16px;
             line-height: 1.4;
+            letter-spacing: -0.2px;
         }
         .video-container {
             width: 100%;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            background: #f0f0f0;
-            height: 250px; 
+            background: #E5E5EA;
+            height: 220px; 
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #8e8e93;
+            color: var(--apple-text-sub);
             font-size: 14px;
         }
         iframe { width: 100%; height: 100%; border: none; }
 
-        /* === 子頁面 (專區視圖) === */
+        /* === 子頁面 (專區視圖) 精緻化 === */
         #detail-view {
             display: none;
             width: 100%;
             max-width: 800px;
-            padding: 15px;
+            padding: 20px 16px;
             box-sizing: border-box;
-            padding-bottom: 80px; 
+            padding-bottom: 100px; /* 給懸浮按鈕留空間 */
+            background-color: var(--apple-bg);
+        }
+        .detail-header {
+            background: var(--apple-card);
+            padding: 30px 20px;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+        .detail-header h2 {
+            font-size: 24px;
+            margin: 0 0 8px 0;
+            line-height: 1.3;
+        }
+        
+        /* 每個區塊設計成獨立卡片 */
+        .detail-section {
+            background: var(--apple-card);
+            padding: 24px 20px;
+            border-radius: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
         }
         .section-title {
             font-size: 18px;
-            font-weight: bold;
-            margin: 25px 0 10px 0;
-            color: #007AFF;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        /* 固定在底部的返回鍵 */
+
+        /* PDF 下載/開啟按鈕 (取代容易破版的 iframe) */
+        .pdf-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #F2F2F7;
+            color: var(--apple-blue);
+            text-decoration: none;
+            padding: 18px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .pdf-btn:active { background-color: #E5E5EA; }
+
+        .resource-img {
+            width: 100%;
+            border-radius: 16px;
+            display: block;
+        }
+
+        /* 懸浮返回鍵 (iOS 毛玻璃特效) */
         .back-btn-container {
             position: fixed;
-            bottom: 20px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
-            max-width: 400px;
             z-index: 1000;
         }
         .back-btn {
-            background-color: #1c1c1e;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .resource-img {
-            width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            background-color: rgba(29, 29, 31, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
     </style>
 </head>
@@ -192,17 +278,17 @@
     <div id="login-screen">
         <div class="login-box">
             <h2>🔐 系統驗證</h2>
-            <p style="color: #8e8e93; font-size: 14px;">請輸入夥伴專屬通關密碼</p>
+            <p style="color: var(--apple-text-sub); font-size: 15px; margin-top: 4px;">請輸入夥伴專屬通關密碼</p>
             <input type="password" id="pwd" placeholder="輸入密碼">
-            <button onclick="checkPassword()">解鎖進入</button>
-            <p id="error-msg" style="color: #ff3b30; font-size: 14px; display: none; margin-top: 15px;">密碼錯誤，請重新輸入</p>
+            <button class="primary-btn" onclick="checkPassword()">解鎖進入</button>
+            <p id="error-msg" style="color: #FF3B30; font-size: 14px; display: none; margin-top: 16px; font-weight: 500;">密碼錯誤，請重新試一次</p>
         </div>
     </div>
 
     <div id="main-content">
         <div class="header">
             <img src="ai-team-icon.jpg" alt="專案團隊合照" class="hero-image">
-            <h2>硬了再上｜數位知識庫</h2>
+            <h2>硬了再上知識庫</h2>
         </div>
         
         <div class="category-tabs">
@@ -215,106 +301,89 @@
         <div id="video-list">
             <div class="video-card project">
                 <div class="video-title">如何駕馭你的AI：有效協作指南</div>
-                <div class="video-container">
-                    <iframe src="https://drive.google.com/file/d/1jDlOCQ1sv2fyRYA5qjqUDB_x5WNqwOpU/preview" allow="autoplay"></iframe>
-                </div>
+                <div class="video-container"><iframe src="https://drive.google.com/file/d/1jDlOCQ1sv2fyRYA5qjqUDB_x5WNqwOpU/preview" allow="autoplay"></iframe></div>
             </div>
-
             <div class="video-card project">
                 <div class="video-title">團隊新作業系統：三位一體 × 六大引擎</div>
-                <div class="video-container">
-                    <iframe src="https://drive.google.com/file/d/1DuBkoYeNlhx-LsFGAB_P2O2vBvs4R0Ho/preview" allow="autoplay"></iframe>
-                </div>
+                <div class="video-container"><iframe src="https://drive.google.com/file/d/1DuBkoYeNlhx-LsFGAB_P2O2vBvs4R0Ho/preview" allow="autoplay"></iframe></div>
             </div>
-
             <div class="video-card project">
                 <div class="video-title">智慧公司：從拖把到軍規級AI</div>
-                <div class="video-container">
-                    <iframe src="https://drive.google.com/file/d/1mPzbf9Hgu7f-uPa8kVT-o4lAX2Z1r_Qm/preview" allow="autoplay"></iframe>
-                </div>
+                <div class="video-container"><iframe src="https://drive.google.com/file/d/1mPzbf9Hgu7f-uPa8kVT-o4lAX2Z1r_Qm/preview" allow="autoplay"></iframe></div>
             </div>
-
             <div class="video-card project">
                 <div class="video-title">時間vs金錢</div>
-                <div class="video-container">
-                    <iframe src="https://drive.google.com/file/d/1VihFiOUV0B4ehr7MvlEaPoRJbT3AuUn_/preview" allow="autoplay"></iframe>
-                </div>
+                <div class="video-container"><iframe src="https://drive.google.com/file/d/1VihFiOUV0B4ehr7MvlEaPoRJbT3AuUn_/preview" allow="autoplay"></iframe></div>
             </div>
-
             <div class="video-card project">
                 <div class="video-title">設計思考：解鎖稅務與傳承對話</div>
-                <div class="video-container">
-                    <iframe src="https://drive.google.com/file/d/1krywU-xinWMH49h9s4fMWHoATUVIh-qj/preview" allow="autoplay"></iframe>
-                </div>
+                <div class="video-container"><iframe src="https://drive.google.com/file/d/1krywU-xinWMH49h9s4fMWHoATUVIh-qj/preview" allow="autoplay"></iframe></div>
             </div>
-
             <div class="video-card project">
                 <div class="video-title">家庭風險管理：一個全新視角</div>
-                <div class="video-container">
-                    <iframe src="https://drive.google.com/file/d/11LkHNcbxN0U179UFB7Tv-IU81hknqECa/preview" allow="autoplay"></iframe>
-                </div>
+                <div class="video-container"><iframe src="https://drive.google.com/file/d/11LkHNcbxN0U179UFB7Tv-IU81hknqECa/preview" allow="autoplay"></iframe></div>
             </div>
 
             <div class="video-card fmbos">
                 <div class="video-title">人體作業系統：拆解個人行動框架</div>
-                <div class="video-container">
-                    <iframe src="https://drive.google.com/file/d/1x7GXBYKyCQoZdpaAx6X9DQ58W247v4ah/preview" allow="autoplay"></iframe>
-                </div>
+                <div class="video-container"><iframe src="https://drive.google.com/file/d/1x7GXBYKyCQoZdpaAx6X9DQ58W247v4ah/preview" allow="autoplay"></iframe></div>
             </div>
 
-            <div class="video-card fmbos clickable-card" onclick="openDetailView()">
-                <div class="video-title">打造「三位一體」數位作業系統 <span style="color: #007AFF;">➔ 點擊進入專區</span></div>
-                <div class="video-container" style="height: 100px; background-color: #e5e5ea; color: #1c1c1e; font-weight: bold;">
-                    📁 內含：簡報 PDF / 懶人包 / 完整影片
+            <div class="video-card fmbos clickable-card" onclick="openDetailView()" style="border: 2px solid var(--apple-blue);">
+                <div class="video-title">打造「三位一體」數位作業系統</div>
+                <div style="color: var(--apple-text-sub); font-size: 14px; margin-bottom: 12px;">包含：影音 / PDF 簡報 / 懶人包</div>
+                <div style="background-color: var(--apple-blue); color: white; text-align: center; padding: 12px; border-radius: 12px; font-weight: 600;">
+                    點擊進入專題資料夾 ➔
                 </div>
             </div>
             
             <div class="video-card podcast">
                 <div class="video-title">打造專業藍圖：一個職涯轉型的個案研究</div>
-                <div class="video-container">
-                    <iframe src="https://drive.google.com/file/d/1kozYaMR-BPyo9R2AQ6A7RJXsmQVeq2Nd/preview" allow="autoplay"></iframe>
-                </div>
+                <div class="video-container"><iframe src="https://drive.google.com/file/d/1kozYaMR-BPyo9R2AQ6A7RJXsmQVeq2Nd/preview" allow="autoplay"></iframe></div>
             </div>
-
             <div class="video-card podcast">
                 <div class="video-title">打造你的AI人設：一個成長框架</div>
-                <div class="video-container">
-                    <iframe src="https://drive.google.com/file/d/1FdKbaz8ZHAcl-XiXl0ueYhggUJVjQPr1/preview" allow="autoplay"></iframe>
-                </div>
+                <div class="video-container"><iframe src="https://drive.google.com/file/d/1FdKbaz8ZHAcl-XiXl0ueYhggUJVjQPr1/preview" allow="autoplay"></iframe></div>
             </div>
-
             <div class="video-card podcast">
                 <div class="video-title">職場邊界藝術：過濾噪音_保護專注力</div>
-                <div class="video-container">
-                    <iframe src="https://drive.google.com/file/d/17tRsepc555QQlAx89dUKXwSrfzbJvpL1/preview" allow="autoplay"></iframe>
-                </div>
+                <div class="video-container"><iframe src="https://drive.google.com/file/d/17tRsepc555QQlAx89dUKXwSrfzbJvpL1/preview" allow="autoplay"></iframe></div>
             </div>
         </div>
     </div>
 
     <div id="detail-view">
-        <div class="header">
-            <h2>打造「三位一體」數位作業系統</h2>
-            <p style="color: #8e8e93; font-size: 14px; margin-top: -10px;">專案詳細資料</p>
+        <div class="detail-header">
+            <h2 style="color: var(--apple-text-main);">打造「三位一體」數位作業系統</h2>
+            <p style="color: var(--apple-text-sub); margin: 0; font-size: 15px;">FMBos 專題資料庫</p>
         </div>
 
-        <div class="section-title">🎥 1. 完整影片</div>
-        <div class="video-container" style="height: 250px;">
-            <iframe src="https://drive.google.com/file/d/1dDIL1EiDYnH7CmiLixMiwU00hlcBoirr/preview" allow="autoplay"></iframe>
+        <div class="detail-section">
+            <div class="section-title">🎥 完整實錄影片</div>
+            <div class="video-container" style="height: 220px;">
+                <iframe src="https://drive.google.com/file/d/1dDIL1EiDYnH7CmiLixMiwU00hlcBoirr/preview" allow="autoplay"></iframe>
+            </div>
         </div>
 
-        <div class="section-title">📄 2. 簡報 PDF</div>
-        <div class="video-container" style="height: 400px; background: transparent;">
-            <iframe src="簡報.pdf" style="width: 100%; height: 100%; border-radius: 12px; border: 1px solid #d1d1d6;"></iframe>
+        <div class="detail-section">
+            <div class="section-title">📄 專案簡報 PDF</div>
+            <p style="color: var(--apple-text-sub); font-size: 14px; margin-top: 0; margin-bottom: 16px;">點擊下方按鈕以全螢幕閱讀或下載簡報。</p>
+            <a href="presentation.pdf" target="_blank" class="pdf-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                開啟 / 下載 PDF 簡報
+            </a>
         </div>
 
-        <div class="section-title">💡 3. 懶人包</div>
-        <div style="width: 100%; margin-top: 15px;">
-            <img src="懶人包.jpg" alt="三位一體數位作業系統懶人包" class="resource-img">
+        <div class="detail-section">
+            <div class="section-title">💡 核心懶人包</div>
+            <img src="summary.jpg" alt="三位一體數位作業系統懶人包" class="resource-img">
         </div>
 
         <div class="back-btn-container">
-            <button class="back-btn" onclick="closeDetailView()">⬅ 返回總覽</button>
+            <button class="back-btn" onclick="closeDetailView()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                返回總覽
+            </button>
         </div>
     </div>
 
@@ -356,7 +425,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 子頁面切換邏輯
         function openDetailView() {
             document.getElementById("main-content").style.display = "none";
             document.getElementById("detail-view").style.display = "block";
