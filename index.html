@@ -92,7 +92,7 @@
         }
         .auth-btn:active { transform: scale(0.96); opacity: 0.8; }
 
-        #main-content, #detail-view {
+        #main-content {
             display: none;
             width: 100%;
             max-width: 800px;
@@ -100,13 +100,14 @@
             padding-bottom: 100px;
         }
 
+        /* 🌟 核心修復 1：主畫面導覽列閃避靈動島 🌟 */
         .nav-header {
             position: sticky;
             top: 0;
             background: rgba(242, 242, 247, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            padding: 20px 24px 10px 24px;
+            padding: calc(20px + env(safe-area-inset-top)) 24px 10px 24px;
             z-index: 100;
         }
         .nav-header h1 {
@@ -199,6 +200,15 @@
             margin-bottom: 12px;
         }
 
+        /* 🌟 核心修復 2：子畫面整體向下退讓安全距離 🌟 */
+        #detail-view {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+            padding-top: env(safe-area-inset-top);
+        }
         .detail-hero {
             width: 100%;
             height: 250px;
