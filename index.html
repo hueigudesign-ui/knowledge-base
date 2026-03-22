@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>內部專屬數位圖書館</title>
+    <style>
+        /* Apple 風格質感設計 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #F5F5F7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* 密碼鎖畫面 */
+        #login-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+            width: 80%;
+            max-width: 350px;
+        }
+        input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            margin: 20px 0;
+            border: 1px solid #d1d1d6;
+            border-radius: 12px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007AFF;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+        button:hover { background-color: #0056b3; }
+
+        /* 主畫面與分類按鈕 */
+        #main-content {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .header {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background-color: #e5e5ea;
+            color: #1c1c1e;
+            width: auto;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+        .tab-btn.active {
+            background-color: #007AFF;
+            color: white;
+        }
+
+        /* 影片卡片區塊 */
+        .video-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: none; /* 預設隱藏，由 JS 控制顯示 */
+        }
+        .video-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1c1c1e;
+        }
+        .video-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f0f0f0;
+            height: 400px; /* 適合影片與錄音播放的高度 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen">
+        <div class="login-box">
+            <h2>🔐 系統驗證</h2>
+            <p>請輸入夥伴專屬通關密碼</p>
+            <input type="password" id="pwd" placeholder="請輸入密碼">
+            <button onclick="checkPassword()">解鎖進入</button>
+            <p id="error-msg" style="color: #ff3b30; display: none; margin-top: 15px;">密碼錯誤，請重新輸入</p>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div class="header">
+            <h2>硬了再上｜數位知識庫</h2>
+        </div>
+        
+        <div class="category-tabs">
+            <button class="tab-btn active" onclick="filterCategory('all')">全部內容</button>
+            <button class="tab-btn" onclick="filterCategory('growth')">個人成長</button>
+            <button class="tab-btn" onclick="filterCategory('insurance')">保險專業</button>
+            <button class="tab-btn" onclick="filterCategory('cleaning')">臻潔淨科技</button>
+        </div>
+
+        <div id="video-list">
+            
+            <div class="video-card growth">
+                <div class="video-title">1. 人體作業系統：拆解個人行動框架</div>
+                <div class="video-container">
+                    <iframe src="https://drive.google.com/file/d/17tRsepc555QQlAx89dUKXwSrfzbJvpL1/preview" allow="autoplay"></iframe>
+                </div>
+            </div>
+
+            <div class="video-card growth">
+                <div class="video-title">2. 打造你的AI人設：一個成長框架</div>
+                <div class="video-container">
+                    <iframe src="https://drive.google.com/file/d/1VihFiOUV0B4ehr7MvlEaPoRJbT3AuUn_/preview" allow="autoplay"></iframe>
+                </div>
+            </div>
+
+            <div class="video-card growth">
+                <div class="video-title">3. 時間vs金錢</div>
+                <div class="video-container">
+                    <iframe src="https://drive.google.com/file/d/1t_anMBckBl40A-Koe2pAjOyPLR75-Xmm/preview" allow="autoplay"></iframe>
+                </div>
+            </div>
+
+            <div class="video-card growth">
+                <div class="video-title">4. 職場邊界藝術：過濾噪音_保護專注力</div>
+                <div class="video-container">
+                    <iframe src="https://drive.google.com/file/d/1x7GXBYKyCQoZdpaAx6X9DQ58W247v4ah/preview" allow="autoplay"></iframe>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // 密碼設定
+        const SECRET_PWD = "0618";
+
+        function checkPassword() {
+            const input = document.getElementById("pwd").value;
+            if (input === SECRET_PWD) {
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("main-content").style.display = "block";
+                filterCategory('all'); 
+            } else {
+                document.getElementById("error-msg").style.display = "block";
+            }
+        }
+
+        // 綁定 Enter 鍵解鎖
+        document.getElementById("pwd").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                checkPassword();
+            }
+        });
+
+        // 分類切換邏輯
+        function filterCategory(category) {
+            const btns = document.querySelectorAll('.tab-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const cards = document.querySelectorAll('.video-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
