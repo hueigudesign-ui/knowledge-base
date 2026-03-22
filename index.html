@@ -2,363 +2,349 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="硬了再上知識庫">
+    <meta name="apple-mobile-web-app-title" content="知識庫">
     <link rel="apple-touch-icon" href="ai-team-icon.jpg">
+    <title>數位作業系統</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
-    <title>硬了再上｜數位作業系統</title>
     <style>
-        /* === 京都極簡美學 (Kyoto Editorial Minimalist) === */
+        /* === Apple 原生沉浸式美學 === */
         :root {
-            --bg-color: #FAFAFA;
-            --text-main: #1A1A1A;
-            --text-sub: #757575;
-            --line-color: #E0E0E0;
-            --accent: #000000;
+            --bg-color: #F2F2F7;
+            --card-bg: #FFFFFF;
+            --text-main: #000000;
+            --text-sub: #8E8E93;
+            --accent-color: #007AFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
             background-color: var(--bg-color);
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
             color: var(--text-main);
-            letter-spacing: 0.5px;
+            overflow-x: hidden;
         }
 
-        h1, h2, h3, .serif-text {
-            font-family: "Songti TC", "Noto Serif TC", "PMingLiU", Georgia, serif;
-            font-weight: 500;
-        }
-        
+        /* --- 登入畫面 --- */
         #login-screen {
             height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: #FFFFFF;
+            padding: 24px;
+            background: #FFFFFF;
         }
-        .login-box {
+        .login-content {
+            width: 100%;
+            max-width: 340px;
             text-align: center;
-            width: 100%;
-            max-width: 320px;
         }
-        .login-box h2 {
+        .login-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .login-content h2 {
             font-size: 28px;
-            margin-bottom: 8px;
-            letter-spacing: 2px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin: 0 0 8px 0;
+        }
+        .login-content p {
+            color: var(--text-sub);
+            font-size: 15px;
+            margin-bottom: 32px;
         }
         input[type="password"] {
             width: 100%;
-            padding: 16px 0;
-            margin: 30px 0;
+            padding: 18px;
+            background: #F2F2F7;
             border: none;
-            border-bottom: 1px solid var(--text-main);
-            font-size: 16px;
-            box-sizing: border-box;
-            background-color: transparent;
+            border-radius: 16px;
+            font-size: 17px;
             text-align: center;
-            border-radius: 0;
-            transition: border-color 0.3s;
+            margin-bottom: 24px;
+            transition: box-shadow 0.3s;
         }
         input[type="password"]:focus {
             outline: none;
-            border-bottom: 2px solid var(--accent);
+            box-shadow: 0 0 0 2px var(--accent-color);
         }
-        button.primary-btn {
-            background-color: var(--accent);
-            color: white;
+        .auth-btn {
+            background: var(--text-main);
+            color: #FFF;
             border: none;
-            padding: 16px 32px;
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
             width: 100%;
-            transition: opacity 0.3s;
+            padding: 18px;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
         }
-        button.primary-btn:active { opacity: 0.7; }
+        .auth-btn:active { transform: scale(0.96); opacity: 0.8; }
 
-        #main-content {
+        /* --- 主畫面佈局 --- */
+        #main-content, #detail-view {
             display: none;
             width: 100%;
             max-width: 800px;
-            padding: 40px 20px;
-            box-sizing: border-box;
-            padding-bottom: 80px; 
+            margin: 0 auto;
+            padding-bottom: 100px;
         }
-        .header {
-            text-align: left;
-            margin-bottom: 40px;
+
+        /* 頂部導覽列 (毛玻璃特效) */
+        .nav-header {
+            position: sticky;
+            top: 0;
+            background: rgba(242, 242, 247, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 20px 24px 10px 24px;
+            z-index: 100;
         }
-        .hero-image {
-            width: 100%;
-            margin-bottom: 30px;
-            object-fit: cover;
-            filter: grayscale(20%);
-        }
-        .header h2 { 
-            font-size: 32px; 
-            margin: 0 0 10px 0; 
-            letter-spacing: 1px;
-        }
-        .header p {
-            color: var(--text-sub);
-            font-size: 13px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+        .nav-header h1 {
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: -1px;
             margin: 0;
         }
 
-        .category-tabs {
+        /* 分類按鈕列 */
+        .category-scroll {
+            padding: 10px 24px 20px 24px;
             display: flex;
-            gap: 20px;
-            margin-bottom: 40px;
-            border-bottom: 1px solid var(--line-color);
-            padding-bottom: 10px;
+            gap: 12px;
             overflow-x: auto;
-            white-space: nowrap;
+            scrollbar-width: none; /* Firefox */
         }
-        .category-tabs::-webkit-scrollbar { display: none; }
-        .tab-btn {
-            background-color: transparent;
-            color: var(--text-sub);
-            padding: 0 0 8px 0;
-            border: none;
-            border-bottom: 1px solid transparent;
-            font-size: 14px;
-            font-weight: 400;
-            letter-spacing: 1px;
-            transition: color 0.3s, border-color 0.3s;
-        }
-        .tab-btn.active {
+        .category-scroll::-webkit-scrollbar { display: none; }
+        .cat-btn {
+            background: #E5E5EA;
             color: var(--text-main);
-            border-bottom: 1px solid var(--accent);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        .cat-btn.active {
+            background: var(--text-main);
+            color: #FFF;
         }
 
-        .video-card {
-            background: transparent;
-            padding: 0 0 40px 0;
-            margin-bottom: 40px;
-            border-bottom: 1px solid var(--line-color);
-            display: none;
+        /* 影片清單與卡片 */
+        .content-grid {
+            padding: 0 24px;
         }
-        .clickable-card {
-            cursor: pointer;
-            transition: opacity 0.3s;
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+            display: none; /* JS 控制顯示 */
         }
-        .clickable-card:active { opacity: 0.6; }
-        
-        .video-title {
-            font-family: "Songti TC", "Noto Serif TC", serif;
-            font-size: 22px;
-            font-weight: 500;
-            margin-bottom: 20px;
-            line-height: 1.5;
-            color: var(--text-main);
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin: 0 0 16px 0;
+            letter-spacing: -0.5px;
         }
-        .video-container {
+        .media-container {
             width: 100%;
+            border-radius: 16px;
             overflow: hidden;
-            background: #EEEEEE;
-            height: 240px; 
+            background: #000;
+            height: 220px;
+        }
+        .media-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* 專屬專區入口卡片 */
+        .featured-card {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+            color: #FFF;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .featured-card:active { transform: scale(0.97); }
+        .featured-card .card-title { color: #FFF; }
+        .featured-pill {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        /* --- 子頁面 (詳細資料) --- */
+        .detail-hero {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 0 0 32px 32px;
+        }
+        .detail-body {
+            padding: 32px 24px;
+        }
+        .section-header {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 40px 0 20px 0;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 10px;
         }
-        iframe { width: 100%; height: 100%; border: none; }
 
-        /* 子頁面 */
-        #detail-view {
-            display: none;
+        /* === 終極 PDF 渲染區 === */
+        .pdf-viewer-container {
             width: 100%;
-            max-width: 800px;
-            padding: 40px 20px;
-            box-sizing: border-box;
-            padding-bottom: 120px;
-            background-color: var(--bg-color);
+            height: 500px;
+            background: #E5E5EA;
+            border-radius: 24px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch; /* iOS 順暢滑動 */
+            padding: 16px;
         }
-        .detail-header {
-            margin-bottom: 50px;
-            text-align: left;
-        }
-        .detail-header h2 {
-            font-size: 32px;
-            margin: 0 0 10px 0;
-            line-height: 1.4;
-        }
-        
-        .detail-section {
-            margin-bottom: 60px;
-        }
-        .section-title {
-            font-family: "Songti TC", serif;
-            font-size: 20px;
-            font-weight: 500;
-            margin-bottom: 24px;
-            color: var(--text-main);
-            border-left: 3px solid var(--accent);
-            padding-left: 15px;
+        .pdf-page-canvas {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: block;
         }
 
         .resource-img {
             width: 100%;
-            display: block;
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
         }
 
-        /* iOS 原生滑動支援 */
-        .pdf-scroll-wrapper {
-            width: 100%;
-            height: 450px;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch; /* 強制 iOS 啟用慣性滑動 */
-            border: 1px solid var(--line-color);
-            background: #ffffff;
-        }
-
-        .back-btn-container {
+        /* 懸浮返回按鈕 */
+        .floating-back {
             position: fixed;
-            bottom: 30px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 1000;
-        }
-        .back-btn {
-            background-color: var(--accent);
-            color: white;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            color: var(--text-main);
             border: none;
             padding: 16px 32px;
-            font-size: 13px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 12px;
-            transition: transform 0.2s;
+            gap: 8px;
+            z-index: 1000;
         }
-        .back-btn:active { transform: translateY(2px); }
+        .floating-back:active { transform: translateX(-50%) scale(0.95); }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
-        <div class="login-box">
-            <h2 class="serif-text">SYSTEM</h2>
-            <p style="color: var(--text-sub); font-size: 12px; letter-spacing: 3px; text-transform: uppercase;">Partner Access Only</p>
+        <div class="login-content">
+            <div class="login-icon">🔒</div>
+            <h2>數位作業系統</h2>
+            <p>請輸入夥伴驗證碼以解鎖</p>
             <input type="password" id="pwd" placeholder="Enter Password">
-            <button class="primary-btn" onclick="checkPassword()">Unlock</button>
-            <p id="error-msg" style="color: #D32F2F; font-size: 13px; display: none; margin-top: 20px; letter-spacing: 1px;">Access Denied. Try Again.</p>
+            <button class="auth-btn" onclick="checkPassword()">解鎖進入</button>
+            <p id="error-msg" style="color: #FF3B30; display: none; margin-top: 16px;">驗證碼錯誤</p>
         </div>
     </div>
 
     <div id="main-content">
-        <div class="header">
-            <img src="hero.jpg" alt="專案團隊合照" class="hero-image">
-            <h2 class="serif-text">數位知識庫</h2>
-            <p>Digital Operating System</p>
+        <div class="nav-header">
+            <h1>知識庫</h1>
         </div>
         
-        <div class="category-tabs">
-            <button class="tab-btn active" onclick="filterCategory('all')">ALL</button>
-            <button class="tab-btn" onclick="filterCategory('project')">PROJECTS</button>
-            <button class="tab-btn" onclick="filterCategory('fmbos')">FMBOS</button>
-            <button class="tab-btn" onclick="filterCategory('podcast')">PODCAST</button>
+        <div class="category-scroll">
+            <button class="cat-btn active" onclick="filterCategory('all')">全部內容</button>
+            <button class="cat-btn" onclick="filterCategory('fmbos')">FMBos 系統</button>
+            <button class="cat-btn" onclick="filterCategory('project')">企劃專題</button>
+            <button class="cat-btn" onclick="filterCategory('podcast')">Podcast</button>
         </div>
 
-        <div id="video-list">
-            <div class="video-card project">
-                <div class="video-title">如何駕馭你的AI：有效協作指南</div>
-                <div class="video-container"><iframe src="https://drive.google.com/file/d/1jDlOCQ1sv2fyRYA5qjqUDB_x5WNqwOpU/preview" allow="autoplay"></iframe></div>
-            </div>
-            <div class="video-card project">
-                <div class="video-title">團隊新作業系統：三位一體 × 六大引擎</div>
-                <div class="video-container"><iframe src="https://drive.google.com/file/d/1DuBkoYeNlhx-LsFGAB_P2O2vBvs4R0Ho/preview" allow="autoplay"></iframe></div>
-            </div>
-            <div class="video-card project">
-                <div class="video-title">智慧公司：從拖把到軍規級AI</div>
-                <div class="video-container"><iframe src="https://drive.google.com/file/d/1mPzbf9Hgu7f-uPa8kVT-o4lAX2Z1r_Qm/preview" allow="autoplay"></iframe></div>
-            </div>
-            <div class="video-card project">
-                <div class="video-title">時間vs金錢</div>
-                <div class="video-container"><iframe src="https://drive.google.com/file/d/1VihFiOUV0B4ehr7MvlEaPoRJbT3AuUn_/preview" allow="autoplay"></iframe></div>
-            </div>
-            <div class="video-card project">
-                <div class="video-title">設計思考：解鎖稅務與傳承對話</div>
-                <div class="video-container"><iframe src="https://drive.google.com/file/d/1krywU-xinWMH49h9s4fMWHoATUVIh-qj/preview" allow="autoplay"></iframe></div>
-            </div>
-            <div class="video-card project">
-                <div class="video-title">家庭風險管理：一個全新視角</div>
-                <div class="video-container"><iframe src="https://drive.google.com/file/d/11LkHNcbxN0U179UFB7Tv-IU81hknqECa/preview" allow="autoplay"></iframe></div>
-            </div>
-
-            <div class="video-card fmbos">
-                <div class="video-title">人體作業系統：拆解個人行動框架</div>
-                <div class="video-container"><iframe src="https://drive.google.com/file/d/1x7GXBYKyCQoZdpaAx6X9DQ58W247v4ah/preview" allow="autoplay"></iframe></div>
-            </div>
-
-            <div class="video-card fmbos clickable-card" onclick="openDetailView()" style="border-bottom: 2px solid var(--text-main);">
-                <div class="video-title" style="margin-bottom: 10px;">打造「三位一體」數位作業系統 <span style="font-family: sans-serif; font-size: 14px; margin-left: 10px;">↗</span></div>
-                <div style="color: var(--text-sub); font-size: 13px; letter-spacing: 1px; text-transform: uppercase;">Video / Presentation / Summary</div>
-            </div>
+        <div class="content-grid">
             
-            <div class="video-card podcast">
-                <div class="video-title">打造專業藍圖：一個職涯轉型的個案研究</div>
-                <div class="video-container"><iframe src="https://drive.google.com/file/d/1kozYaMR-BPyo9R2AQ6A7RJXsmQVeq2Nd/preview" allow="autoplay"></iframe></div>
+            <div class="card fmbos featured-card" onclick="openDetailView()">
+                <div class="featured-pill">FMBos 專題模組</div>
+                <h2 class="card-title">打造「三位一體」數位作業系統</h2>
+                <p style="color: rgba(255,255,255,0.7); font-size: 15px; margin: 0 0 16px 0;">內含完整教學影片、實作簡報與視覺懶人包。</p>
+                <div style="background: rgba(255,255,255,0.15); padding: 14px; border-radius: 14px; text-align: center; font-weight: 600;">
+                    開啟模組檔案 ➔
+                </div>
             </div>
-            <div class="video-card podcast">
-                <div class="video-title">打造你的AI人設：一個成長框架</div>
-                <div class="video-container"><iframe src="https://drive.google.com/file/d/1FdKbaz8ZHAcl-XiXl0ueYhggUJVjQPr1/preview" allow="autoplay"></iframe></div>
+
+            <div class="card fmbos">
+                <h3 class="card-title">人體作業系統：拆解個人行動框架</h3>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1x7GXBYKyCQoZdpaAx6X9DQ58W247v4ah/preview" allow="autoplay"></iframe></div>
             </div>
-            <div class="video-card podcast">
-                <div class="video-title">職場邊界藝術：過濾噪音_保護專注力</div>
-                <div class="video-container"><iframe src="https://drive.google.com/file/d/17tRsepc555QQlAx89dUKXwSrfzbJvpL1/preview" allow="autoplay"></iframe></div>
-            </div>
+
+            <div class="card project"><h3 class="card-title">如何駕馭你的AI：有效協作指南</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1jDlOCQ1sv2fyRYA5qjqUDB_x5WNqwOpU/preview" allow="autoplay"></iframe></div></div>
+            <div class="card project"><h3 class="card-title">團隊新作業系統：三位一體 × 六大引擎</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1DuBkoYeNlhx-LsFGAB_P2O2vBvs4R0Ho/preview" allow="autoplay"></iframe></div></div>
+            <div class="card project"><h3 class="card-title">智慧公司：從拖把到軍規級AI</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1mPzbf9Hgu7f-uPa8kVT-o4lAX2Z1r_Qm/preview" allow="autoplay"></iframe></div></div>
+            <div class="card project"><h3 class="card-title">時間vs金錢</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1VihFiOUV0B4ehr7MvlEaPoRJbT3AuUn_/preview" allow="autoplay"></iframe></div></div>
+            <div class="card project"><h3 class="card-title">設計思考：解鎖稅務與傳承對話</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1krywU-xinWMH49h9s4fMWHoATUVIh-qj/preview" allow="autoplay"></iframe></div></div>
+            <div class="card project"><h3 class="card-title">家庭風險管理：一個全新視角</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/11LkHNcbxN0U179UFB7Tv-IU81hknqECa/preview" allow="autoplay"></iframe></div></div>
+
+            <div class="card podcast"><h3 class="card-title">打造專業藍圖：一個職涯轉型的個案研究</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1kozYaMR-BPyo9R2AQ6A7RJXsmQVeq2Nd/preview" allow="autoplay"></iframe></div></div>
+            <div class="card podcast"><h3 class="card-title">打造你的AI人設：一個成長框架</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1FdKbaz8ZHAcl-XiXl0ueYhggUJVjQPr1/preview" allow="autoplay"></iframe></div></div>
+            <div class="card podcast"><h3 class="card-title">職場邊界藝術：過濾噪音_保護專注力</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/17tRsepc555QQlAx89dUKXwSrfzbJvpL1/preview" allow="autoplay"></iframe></div></div>
         </div>
     </div>
 
     <div id="detail-view">
-        <div class="detail-header">
-            <p style="color: var(--text-sub); margin: 0 0 10px 0; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;">FMBos Project</p>
-            <h2 class="serif-text">打造「三位一體」數位作業系統</h2>
-        </div>
+        <img src="hero.jpg" alt="專案視覺" class="detail-hero">
+        
+        <div class="detail-body">
+            <h1 style="font-size: 32px; font-weight: 800; line-height: 1.2; margin: 0 0 10px 0;">打造「三位一體」數位作業系統</h1>
+            <p style="color: var(--text-sub); font-size: 16px; margin: 0;">FMBos 核心模組</p>
 
-        <div class="detail-section">
-            <div class="section-title">DOCUMENTARY</div>
-            <div class="video-container" style="height: 240px;">
+            <div class="section-header">🎬 完整實錄影片</div>
+            <div class="media-container" style="height: 240px; border-radius: 24px;">
                 <iframe src="https://drive.google.com/file/d/1dDIL1EiDYnH7CmiLixMiwU00hlcBoirr/preview" allow="autoplay"></iframe>
             </div>
-        </div>
 
-        <div class="detail-section">
-            <div class="section-title">PRESENTATION</div>
-            <div class="pdf-scroll-wrapper">
-                <iframe src="presentation.pdf" style="width: 100%; height: 100%; border: none;" scrolling="yes"></iframe>
+            <div class="section-header">📄 專案簡報 (上下滑動閱讀)</div>
+            <div id="pdf-viewer" class="pdf-viewer-container">
+                <div id="pdf-loading" style="text-align: center; padding: 40px; color: var(--text-sub);">
+                    <p>正在啟動渲染引擎載入簡報...</p>
+                </div>
             </div>
+
+            <div class="section-header">💡 核心懶人包</div>
+            <img src="summary.jpg" alt="懶人包" class="resource-img">
         </div>
 
-        <div class="detail-section">
-            <div class="section-title">SUMMARY</div>
-            <img src="summary.jpg" alt="三位一體數位作業系統懶人包" class="resource-img" style="border: 1px solid var(--line-color);">
-        </div>
-
-        <div class="back-btn-container">
-            <button class="back-btn" onclick="closeDetailView()">
-                <span>← BACK</span>
-            </button>
-        </div>
+        <button class="floating-back" onclick="closeDetailView()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            返回總覽
+        </button>
     </div>
 
     <script>
@@ -384,11 +370,11 @@
         });
 
         function filterCategory(category) {
-            const btns = document.querySelectorAll('.tab-btn');
+            const btns = document.querySelectorAll('.cat-btn');
             btns.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
-            const cards = document.querySelectorAll('.video-card');
+            const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 if (category === 'all' || card.classList.contains(category)) {
                     card.style.display = 'block';
@@ -399,10 +385,54 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // === PDF.js 渲染邏輯 ===
+        let pdfRendered = false;
+        function loadPDF() {
+            if (pdfRendered) return; // 已經載入過就不再重複執行
+            
+            const url = 'presentation.pdf';
+            // 設定 PDF.js Worker
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+            
+            const viewer = document.getElementById('pdf-viewer');
+            const loading = document.getElementById('pdf-loading');
+
+            pdfjsLib.getDocument(url).promise.then(function(pdf) {
+                loading.style.display = 'none'; // 隱藏載入文字
+                
+                // 迴圈讀取每一頁並轉成圖片畫布
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    pdf.getPage(pageNum).then(function(page) {
+                        const viewport = page.getViewport({ scale: 1.5 }); // 提高清晰度
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        canvas.className = 'pdf-page-canvas';
+                        
+                        viewer.appendChild(canvas);
+
+                        const renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+                        page.render(renderContext);
+                    });
+                }
+                pdfRendered = true;
+            }).catch(function(error) {
+                loading.innerHTML = '<p style="color:#FF3B30;">簡報載入失敗，請確認檔名是否為 presentation.pdf</p>';
+            });
+        }
+
         function openDetailView() {
             document.getElementById("main-content").style.display = "none";
             document.getElementById("detail-view").style.display = "block";
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // 開啟專區時，才觸發 PDF 渲染以節省效能
+            loadPDF();
         }
 
         function closeDetailView() {
