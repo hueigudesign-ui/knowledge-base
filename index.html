@@ -69,7 +69,20 @@
             text-align: center;
             margin-top: 20px;
             margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+        /* 團隊首圖視覺 */
+        .hero-image {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            object-fit: cover;
+        }
+
         .category-tabs {
             display: flex;
             justify-content: center;
@@ -138,6 +151,7 @@
 
     <div id="main-content">
         <div class="header">
+            <img src="team.jpg" alt="專案團隊合照" class="hero-image">
             <h2>硬了再上｜數位知識庫</h2>
         </div>
         
@@ -196,6 +210,13 @@
                 <div class="video-title">人體作業系統：拆解個人行動框架</div>
                 <div class="video-container">
                     <iframe src="https://drive.google.com/file/d/1x7GXBYKyCQoZdpaAx6X9DQ58W247v4ah/preview" allow="autoplay"></iframe>
+                </div>
+            </div>
+
+            <div class="video-card fmbos">
+                <div class="video-title">打造「三位一體」數位作業系統</div>
+                <div class="video-container">
+                    <iframe src="https://drive.google.com/file/d/1dDIL1EiDYnH7CmiLixMiwU00hlcBoirr/preview" allow="autoplay"></iframe>
                 </div>
             </div>
 
