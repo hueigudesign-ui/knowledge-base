@@ -12,7 +12,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
     <style>
-        /* === Apple 原生沉浸式美學 === */
         :root {
             --bg-color: #F2F2F7;
             --card-bg: #FFFFFF;
@@ -35,7 +34,6 @@
             overflow-x: hidden;
         }
 
-        /* --- 登入畫面 --- */
         #login-screen {
             height: 100vh;
             display: flex;
@@ -94,7 +92,6 @@
         }
         .auth-btn:active { transform: scale(0.96); opacity: 0.8; }
 
-        /* --- 主畫面佈局 --- */
         #main-content, #detail-view {
             display: none;
             width: 100%;
@@ -103,7 +100,6 @@
             padding-bottom: 100px;
         }
 
-        /* 頂部導覽列 */
         .nav-header {
             position: sticky;
             top: 0;
@@ -120,7 +116,6 @@
             margin: 0;
         }
 
-        /* 分類按鈕列 */
         .category-scroll {
             padding: 10px 24px 20px 24px;
             display: flex;
@@ -145,7 +140,6 @@
             color: #FFF;
         }
 
-        /* 影片清單與卡片 */
         .content-grid {
             padding: 0 24px;
         }
@@ -165,16 +159,14 @@
             letter-spacing: -0.5px;
         }
 
-        /* 🌟 終極修復：iOS App 模式的 16:9 防跑版框架 🌟 */
         .media-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 強制鎖定 16:9 比例 */
+            padding-bottom: 56.25%; 
             height: 0;
             border-radius: 16px;
             background: #1C1C1E;
             overflow: hidden;
-            /* iOS PWA 圓角防溢出遮罩 */
             z-index: 1;
             -webkit-mask-image: -webkit-radial-gradient(white, black);
             mask-image: radial-gradient(white, black);
@@ -189,7 +181,6 @@
             pointer-events: auto;
         }
 
-        /* 專屬專區入口卡片 */
         .featured-card {
             background: linear-gradient(135deg, #000000 0%, #333333 100%);
             color: #FFF;
@@ -208,7 +199,6 @@
             margin-bottom: 12px;
         }
 
-        /* --- 子頁面 (詳細資料) --- */
         .detail-hero {
             width: 100%;
             height: 250px;
@@ -227,7 +217,6 @@
             gap: 10px;
         }
 
-        /* PDF 渲染區 */
         .pdf-viewer-container {
             width: 100%;
             height: 500px;
@@ -251,7 +240,6 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.06);
         }
 
-        /* 懸浮返回按鈕 */
         .floating-back {
             position: fixed;
             bottom: 40px;
@@ -314,19 +302,19 @@
 
             <div class="card fmbos">
                 <h3 class="card-title">人體作業系統：拆解個人行動框架</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1x7GXBYKyCQoZdpaAx6X9DQ58W247v4ah/preview" allow="autoplay"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1x7GXBYKyCQoZdpaAx6X9DQ58W247v4ah/preview" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe></div>
             </div>
 
-            <div class="card project"><h3 class="card-title">如何駕馭你的AI：有效協作指南</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1jDlOCQ1sv2fyRYA5qjqUDB_x5WNqwOpU/preview" allow="autoplay"></iframe></div></div>
-            <div class="card project"><h3 class="card-title">團隊新作業系統：三位一體 × 六大引擎</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1DuBkoYeNlhx-LsFGAB_P2O2vBvs4R0Ho/preview" allow="autoplay"></iframe></div></div>
-            <div class="card project"><h3 class="card-title">智慧公司：從拖把到軍規級AI</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1mPzbf9Hgu7f-uPa8kVT-o4lAX2Z1r_Qm/preview" allow="autoplay"></iframe></div></div>
-            <div class="card project"><h3 class="card-title">時間vs金錢</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1VihFiOUV0B4ehr7MvlEaPoRJbT3AuUn_/preview" allow="autoplay"></iframe></div></div>
-            <div class="card project"><h3 class="card-title">設計思考：解鎖稅務與傳承對話</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1krywU-xinWMH49h9s4fMWHoATUVIh-qj/preview" allow="autoplay"></iframe></div></div>
-            <div class="card project"><h3 class="card-title">家庭風險管理：一個全新視角</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/11LkHNcbxN0U179UFB7Tv-IU81hknqECa/preview" allow="autoplay"></iframe></div></div>
+            <div class="card project"><h3 class="card-title">如何駕馭你的AI：有效協作指南</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1jDlOCQ1sv2fyRYA5qjqUDB_x5WNqwOpU/preview" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe></div></div>
+            <div class="card project"><h3 class="card-title">團隊新作業系統：三位一體 × 六大引擎</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1DuBkoYeNlhx-LsFGAB_P2O2vBvs4R0Ho/preview" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe></div></div>
+            <div class="card project"><h3 class="card-title">智慧公司：從拖把到軍規級AI</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1mPzbf9Hgu7f-uPa8kVT-o4lAX2Z1r_Qm/preview" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe></div></div>
+            <div class="card project"><h3 class="card-title">時間vs金錢</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1VihFiOUV0B4ehr7MvlEaPoRJbT3AuUn_/preview" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe></div></div>
+            <div class="card project"><h3 class="card-title">設計思考：解鎖稅務與傳承對話</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1krywU-xinWMH49h9s4fMWHoATUVIh-qj/preview" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe></div></div>
+            <div class="card project"><h3 class="card-title">家庭風險管理：一個全新視角</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/11LkHNcbxN0U179UFB7Tv-IU81hknqECa/preview" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe></div></div>
 
-            <div class="card podcast"><h3 class="card-title">打造專業藍圖：一個職涯轉型的個案研究</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1kozYaMR-BPyo9R2AQ6A7RJXsmQVeq2Nd/preview" allow="autoplay"></iframe></div></div>
-            <div class="card podcast"><h3 class="card-title">打造你的AI人設：一個成長框架</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1FdKbaz8ZHAcl-XiXl0ueYhggUJVjQPr1/preview" allow="autoplay"></iframe></div></div>
-            <div class="card podcast"><h3 class="card-title">職場邊界藝術：過濾噪音_保護專注力</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/17tRsepc555QQlAx89dUKXwSrfzbJvpL1/preview" allow="autoplay"></iframe></div></div>
+            <div class="card podcast"><h3 class="card-title">打造專業藍圖：一個職涯轉型的個案研究</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1kozYaMR-BPyo9R2AQ6A7RJXsmQVeq2Nd/preview" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe></div></div>
+            <div class="card podcast"><h3 class="card-title">打造你的AI人設：一個成長框架</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/1FdKbaz8ZHAcl-XiXl0ueYhggUJVjQPr1/preview" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe></div></div>
+            <div class="card podcast"><h3 class="card-title">職場邊界藝術：過濾噪音_保護專注力</h3><div class="media-container"><iframe src="https://drive.google.com/file/d/17tRsepc555QQlAx89dUKXwSrfzbJvpL1/preview" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe></div></div>
         </div>
     </div>
 
@@ -339,7 +327,7 @@
 
             <div class="section-header">🎬 完整實錄影片</div>
             <div class="media-container">
-                <iframe src="https://drive.google.com/file/d/1dDIL1EiDYnH7CmiLixMiwU00hlcBoirr/preview" allow="autoplay"></iframe>
+                <iframe src="https://drive.google.com/file/d/1dDIL1EiDYnH7CmiLixMiwU00hlcBoirr/preview" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
             </div>
 
             <div class="section-header">📄 專案簡報 (上下滑動閱讀)</div>
