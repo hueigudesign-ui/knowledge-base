@@ -2,10 +2,17 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="硬了再上知識庫">
+    
+    <link rel="apple-touch-icon" href="team.jpg">
+
     <title>內部專屬數位圖書館</title>
     <style>
-        /* Apple 風格質感設計 */
+        /* Apple 手機 App 風格質感設計 */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #F5F5F7;
@@ -14,9 +21,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* 移除手機點擊時的藍色閃爍，更像原生 App */
+            -webkit-tap-highlight-color: transparent;
+            /* 防止水平滑動破版 */
+            overflow-x: hidden;
         }
         
-        /* 密碼鎖畫面 */
+        /* 密碼鎖畫面 (手機版面適配) */
         #login-screen {
             height: 100vh;
             display: flex;
@@ -24,14 +35,16 @@
             justify-content: center;
             align-items: center;
             width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
         }
         .login-box {
             background: white;
-            padding: 40px;
+            padding: 30px 20px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             text-align: center;
-            width: 80%;
+            width: 100%;
             max-width: 350px;
         }
         input[type="password"] {
@@ -42,6 +55,8 @@
             border-radius: 12px;
             font-size: 16px;
             box-sizing: border-box;
+            /* 避免 iOS 輸入框自作主張放大畫面 */
+            font-size: 16px; 
         }
         button {
             background-color: #007AFF;
@@ -55,50 +70,55 @@
             width: 100%;
             transition: background-color 0.2s;
         }
-        button:hover { background-color: #0056b3; }
+        button:active { background-color: #0056b3; } /* 手機按壓回饋 */
 
         /* 主畫面與分類按鈕 */
         #main-content {
             display: none;
             width: 100%;
             max-width: 800px;
-            padding: 20px;
+            padding: 15px;
             box-sizing: border-box;
+            /* 預留 iPhone 底部安全區距 */
+            padding-bottom: 40px; 
         }
         .header {
             text-align: center;
-            margin-top: 20px;
-            margin-bottom: 30px;
+            margin-top: 10px;
+            margin-bottom: 25px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        /* 團隊首圖視覺 */
+        /* 團隊首圖視覺 (完美適配手機寬度) */
         .hero-image {
             width: 100%;
-            max-width: 600px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-radius: 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
             object-fit: cover;
+        }
+        h2 {
+            font-size: 22px;
+            margin: 10px 0;
+            color: #1c1c1e;
         }
 
         .category-tabs {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
+            gap: 8px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
         }
         .tab-btn {
             background-color: #e5e5ea;
             color: #1c1c1e;
-            width: auto;
-            padding: 10px 20px;
+            padding: 10px 16px;
             border-radius: 20px;
-            cursor: pointer;
             border: none;
             font-size: 14px;
+            font-weight: 500;
         }
         .tab-btn.active {
             background-color: #007AFF;
@@ -109,23 +129,25 @@
         .video-card {
             background: white;
             border-radius: 20px;
-            padding: 20px;
+            padding: 16px;
             margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            display: none; /* 預設隱藏，由 JS 控制顯示 */
+            display: none;
         }
         .video-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: #1c1c1e;
+            line-height: 1.4;
         }
         .video-container {
             width: 100%;
             border-radius: 12px;
             overflow: hidden;
             background: #f0f0f0;
-            height: 400px; 
+            /* 針對手機屏幕調整最佳高度，避免佔用太多垂直空間 */
+            height: 250px; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -142,10 +164,10 @@
     <div id="login-screen">
         <div class="login-box">
             <h2>🔐 系統驗證</h2>
-            <p>請輸入夥伴專屬通關密碼</p>
-            <input type="password" id="pwd" placeholder="請輸入密碼">
+            <p style="color: #8e8e93; font-size: 14px;">請輸入夥伴專屬通關密碼</p>
+            <input type="password" id="pwd" placeholder="輸入密碼">
             <button onclick="checkPassword()">解鎖進入</button>
-            <p id="error-msg" style="color: #ff3b30; display: none; margin-top: 15px;">密碼錯誤，請重新輸入</p>
+            <p id="error-msg" style="color: #ff3b30; font-size: 14px; display: none; margin-top: 15px;">密碼錯誤，請重新輸入</p>
         </div>
     </div>
 
@@ -156,10 +178,10 @@
         </div>
         
         <div class="category-tabs">
-            <button class="tab-btn active" onclick="filterCategory('all')">全部內容</button>
+            <button class="tab-btn active" onclick="filterCategory('all')">全部</button>
             <button class="tab-btn" onclick="filterCategory('project')">企劃專題</button>
             <button class="tab-btn" onclick="filterCategory('fmbos')">FMBos</button>
-            <button class="tab-btn" onclick="filterCategory('podcast')">260322podcast</button>
+            <button class="tab-btn" onclick="filterCategory('podcast')">Podcast</button>
         </div>
 
         <div id="video-list">
@@ -254,12 +276,14 @@
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
                 filterCategory('all'); 
+                // 針對手機鍵盤：解鎖後自動收起鍵盤
+                document.getElementById("pwd").blur();
             } else {
                 document.getElementById("error-msg").style.display = "block";
             }
         }
 
-        // 綁定 Enter 鍵解鎖
+        // 綁定 Enter (手機上的 Go/前往 鍵) 解鎖
         document.getElementById("pwd").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
@@ -281,6 +305,9 @@
                     card.style.display = 'none';
                 }
             });
+            
+            // 切換分類後自動捲動回最上方，確保手機體驗流暢
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
