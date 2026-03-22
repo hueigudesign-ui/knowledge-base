@@ -164,14 +164,22 @@
             margin: 0 0 16px 0;
             letter-spacing: -0.5px;
         }
+
+        /* 🌟 核心修復：影片框架 16:9 自適應比例設定 🌟 */
         .media-container {
+            position: relative;
             width: 100%;
+            padding-bottom: 56.25%; /* 完美的 16:9 比例 */
+            height: 0;
             border-radius: 16px;
             overflow: hidden;
-            background: #000;
-            height: 220px;
+            background: #1C1C1E; /* Apple 原生黑 */
+            -webkit-transform: translate3d(0,0,0); /* 修復 iOS 圓角遮罩失效的問題 */
         }
         .media-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             border: none;
@@ -215,7 +223,7 @@
             gap: 10px;
         }
 
-        /* === 終極 PDF 渲染區 === */
+        /* === PDF 渲染區 === */
         .pdf-viewer-container {
             width: 100%;
             height: 500px;
@@ -326,7 +334,7 @@
             <p style="color: var(--text-sub); font-size: 16px; margin: 0;">FMBos 核心模組</p>
 
             <div class="section-header">🎬 完整實錄影片</div>
-            <div class="media-container" style="height: 240px; border-radius: 24px;">
+            <div class="media-container" style="border-radius: 24px;">
                 <iframe src="https://drive.google.com/file/d/1dDIL1EiDYnH7CmiLixMiwU00hlcBoirr/preview" allow="autoplay"></iframe>
             </div>
 
@@ -388,22 +396,20 @@
         // === PDF.js 渲染邏輯 ===
         let pdfRendered = false;
         function loadPDF() {
-            if (pdfRendered) return; // 已經載入過就不再重複執行
+            if (pdfRendered) return;
             
             const url = 'presentation.pdf';
-            // 設定 PDF.js Worker
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
             
             const viewer = document.getElementById('pdf-viewer');
             const loading = document.getElementById('pdf-loading');
 
             pdfjsLib.getDocument(url).promise.then(function(pdf) {
-                loading.style.display = 'none'; // 隱藏載入文字
+                loading.style.display = 'none';
                 
-                // 迴圈讀取每一頁並轉成圖片畫布
                 for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                     pdf.getPage(pageNum).then(function(page) {
-                        const viewport = page.getViewport({ scale: 1.5 }); // 提高清晰度
+                        const viewport = page.getViewport({ scale: 1.5 });
                         const canvas = document.createElement('canvas');
                         const context = canvas.getContext('2d');
                         
@@ -430,8 +436,6 @@
             document.getElementById("main-content").style.display = "none";
             document.getElementById("detail-view").style.display = "block";
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // 開啟專區時，才觸發 PDF 渲染以節省效能
             loadPDF();
         }
 
