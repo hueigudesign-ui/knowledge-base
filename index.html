@@ -103,7 +103,7 @@
             padding-bottom: 100px;
         }
 
-        /* 頂部導覽列 (毛玻璃特效) */
+        /* 頂部導覽列 */
         .nav-header {
             position: sticky;
             top: 0;
@@ -126,7 +126,7 @@
             display: flex;
             gap: 12px;
             overflow-x: auto;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none; 
         }
         .category-scroll::-webkit-scrollbar { display: none; }
         .cat-btn {
@@ -155,7 +155,7 @@
             padding: 20px;
             margin-bottom: 24px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.04);
-            display: none; /* JS 控制顯示 */
+            display: none; 
         }
         .card-title {
             font-size: 20px;
@@ -165,16 +165,19 @@
             letter-spacing: -0.5px;
         }
 
-        /* 🌟 核心修復：影片框架 16:9 自適應比例設定 🌟 */
+        /* 🌟 終極修復：iOS App 模式的 16:9 防跑版框架 🌟 */
         .media-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 完美的 16:9 比例 */
+            padding-bottom: 56.25%; /* 強制鎖定 16:9 比例 */
             height: 0;
             border-radius: 16px;
+            background: #1C1C1E;
             overflow: hidden;
-            background: #1C1C1E; /* Apple 原生黑 */
-            -webkit-transform: translate3d(0,0,0); /* 修復 iOS 圓角遮罩失效的問題 */
+            /* iOS PWA 圓角防溢出遮罩 */
+            z-index: 1;
+            -webkit-mask-image: -webkit-radial-gradient(white, black);
+            mask-image: radial-gradient(white, black);
         }
         .media-container iframe {
             position: absolute;
@@ -183,6 +186,7 @@
             width: 100%;
             height: 100%;
             border: none;
+            pointer-events: auto;
         }
 
         /* 專屬專區入口卡片 */
@@ -223,14 +227,14 @@
             gap: 10px;
         }
 
-        /* === PDF 渲染區 === */
+        /* PDF 渲染區 */
         .pdf-viewer-container {
             width: 100%;
             height: 500px;
             background: #E5E5EA;
             border-radius: 24px;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch; /* iOS 順暢滑動 */
+            -webkit-overflow-scrolling: touch; 
             padding: 16px;
         }
         .pdf-page-canvas {
@@ -334,7 +338,7 @@
             <p style="color: var(--text-sub); font-size: 16px; margin: 0;">FMBos 核心模組</p>
 
             <div class="section-header">🎬 完整實錄影片</div>
-            <div class="media-container" style="border-radius: 24px;">
+            <div class="media-container">
                 <iframe src="https://drive.google.com/file/d/1dDIL1EiDYnH7CmiLixMiwU00hlcBoirr/preview" allow="autoplay"></iframe>
             </div>
 
@@ -393,7 +397,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // === PDF.js 渲染邏輯 ===
         let pdfRendered = false;
         function loadPDF() {
             if (pdfRendered) return;
