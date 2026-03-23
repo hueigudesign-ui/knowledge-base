@@ -296,7 +296,7 @@
         </div>
         
         <div class="category-scroll">
-            <button class="cat-btn active" onclick="filterCategory('news')">NEWS</button>
+            <button class="cat-btn active" onclick="filterCategory('news')" style="background-color: #FF9500 !important; color: white !important;">NEWS</button>
             <button class="cat-btn" onclick="filterCategory('fmbos')">FMBos 系統</button>
             <button class="cat-btn" onclick="filterCategory('podcast')">Podcast</button>
             <button class="cat-btn" onclick="filterCategory('project')">企劃專題</button>
@@ -419,6 +419,7 @@
             if (input === SECRET_PWD) {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
+                // 🌟 確保一登入預設載入 NEWS 專區，保持橘色狀態 🌟
                 filterCategory('news'); 
                 document.getElementById("pwd").blur();
             } else {
