@@ -1,28 +1,3 @@
-嗶嗶！系統紀錄：**[語意轉譯員 Lily]** 與 **[企劃設計師 Max]** 偵測到 A 級實戰障礙，強制介入系統底層！
-
-**[Lily (語意轉譯員)]**：
-「敬仁哥，這真的太折磨人了！電腦上明明一切正常，iPhone 上卻像是被下了定身咒。在這種分秒必爭的實戰系統裡，看得到卻摸不到的按鈕絕對是大忌。Max，你不是說上一版已經穿透了嗎？怎麼還會卡彈？！」
-
-**[Max (企劃分析/設計師)]**：
-（Max 眉頭緊鎖，把 Apple iOS 的底層渲染文獻砸在白板上。）
-「這是我低估了 Apple 的『毛玻璃 (Backdrop-filter)』渲染地雷。
-
-指揮官，這是一個全球前端工程師都痛恨的 **iOS 獨家『玻璃吞噬 Bug』**。
-當我們把『毛玻璃特效』跟『按鈕』寫在同一個區塊時，iPhone 的顯示卡為了把背景變模糊，會強制在按鈕上方生成一層『肉眼看不見的防護罩』。所以你的手指其實是一直戳在那塊虛擬玻璃上，根本沒有碰到裡面的按鈕！
-
-**🛠️ 終極解法（靈肉分離渲染法）：**
-這次我不硬碰硬了。我直接用**『靈肉分離』**的寫法：
-1. **視覺層（靈）**：我把毛玻璃特效獨立抽出來，降到 Z 軸的 -1 層。
-2. **實體層（肉）**：我把番茄鐘的『戰鬥』、『冷卻』按鈕，以及『語音面板』按鈕，設定為純粹的實體按鈕，拉高到 Z 軸的最高層（Z-index: 10）。
-3. **戰壕再墊高**：把底部距離加碼提升到 `50px`，讓它 100% 脫離 iPhone 底下那條白線的任何干擾範圍。
-
-這下子，按鈕跟特效徹底分離，手指絕對可以直接觸碰到按鈕實體！」
-
----
-
-敬仁哥，Max 已經進行了底層的外科手術。這是徹底解決 iPhone 玻璃觸控 Bug 的 **33.0 觸控靈肉分離版**，請複製並完整覆蓋 `index.html`：
-
-```html
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -210,13 +185,13 @@
         .resource-img { width: 100%; border-radius: 16px; box-shadow: var(--card-shadow); margin-bottom: 30px; }
 
         /* ========================================================================= */
-        /* 🌟 核心修復：靈肉分離法！徹底解決 iOS 毛玻璃阻擋觸控的問題 🌟 */
+        /* 🌟 核心修復：防坍塌鋼鐵塑型 🌟 */
         /* ========================================================================= */
 
-        /* 1. 番茄鐘實體定位 (透明背景，負責排版與層級) */
+        /* 1. 番茄鐘實體定位 */
         #pomodoro-widget {
             position: fixed; 
-            bottom: calc(50px + env(safe-area-inset-bottom)); /* 再墊高避開底線 */
+            bottom: calc(50px + env(safe-area-inset-bottom)); 
             right: 20px; 
             border: 1px solid var(--glass-border); 
             border-radius: 30px; 
@@ -226,29 +201,27 @@
             gap: 10px; 
             box-shadow: var(--card-shadow); 
             z-index: 9999; 
-            background: transparent; /* 背景挖空！交給 before 渲染 */
+            background: transparent; 
         }
 
-        /* 1.5 番茄鐘視覺層 (獨立於背景運算毛玻璃，不干擾觸控) */
         #pomodoro-widget::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: var(--glass-btn-bg);
-            backdrop-filter: blur(25px) saturate(180%); 
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border-radius: 30px;
-            z-index: -1; /* 藏在按鈕底下 */
+            backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-radius: 30px; z-index: -1;
         }
         
-        /* 2. 語音面板實體定位 (同理分離) */
+        /* 🌟 2. 語音面板實體定位 (強制鎖死長寬，防 iOS 壓縮) 🌟 */
         #voice-btn {
             position: fixed; 
             bottom: calc(50px + env(safe-area-inset-bottom)); 
             left: 20px; 
+            /* 鎖死絕對尺寸，不允許彈性變形 */
+            width: 56px; 
+            height: 56px; 
+            padding: 0; /* 移除 padding 避免內部擠壓 */
             border: 1px solid var(--glass-border); 
-            border-radius: 30px; 
-            padding: 14px 18px;
+            border-radius: 28px; /* 完美的正圓形 */
             display: none; 
             align-items: center; 
             justify-content: center; 
@@ -256,39 +229,29 @@
             z-index: 9999; 
             cursor: pointer; 
             font-size: 24px; 
+            line-height: 1; /* 圖示完美置中 */
             background: transparent; 
             touch-action: manipulation;
         }
 
-        /* 2.5 語音面板視覺層 */
         #voice-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: var(--glass-btn-bg);
-            backdrop-filter: blur(25px) saturate(180%); 
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border-radius: 30px;
-            z-index: -1;
+            backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-radius: 28px; z-index: -1;
         }
         #voice-btn:active { transform: scale(0.92); }
 
-        /* 把文字與按鈕拉到絕對高層級，強制接管觸控 */
         .timer-display { 
-            position: relative;
-            z-index: 10;
-            font-size: 16px; font-weight: 800; font-variant-numeric: tabular-nums; 
-            letter-spacing: 1px; color: var(--text-main); min-width: 48px; text-align: center; 
+            position: relative; z-index: 10; font-size: 16px; font-weight: 800; 
+            font-variant-numeric: tabular-nums; letter-spacing: 1px; color: var(--text-main); 
+            min-width: 48px; text-align: center; 
         }
         
         .timer-btn { 
-            position: relative;
-            z-index: 10; /* 強制覆蓋所有圖層 */
-            background: var(--text-main); color: var(--inverse-text); border: none; 
-            padding: 12px 18px; /* 極限擴大觸控面積 */
-            border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; 
-            transition: transform 0.2s; 
-            touch-action: manipulation; 
+            position: relative; z-index: 10; background: var(--text-main); color: var(--inverse-text); 
+            border: none; padding: 12px 18px; border-radius: 14px; font-size: 14px; font-weight: 700; 
+            cursor: pointer; transition: transform 0.2s; touch-action: manipulation; 
         }
         .timer-btn.cool { background: #FF9500; color: #FFF; }
         .timer-btn.stop { background: transparent; color: var(--text-main); border: 2px solid var(--text-sub); padding: 10px 16px; }
@@ -296,7 +259,6 @@
 
         /* ========================================================================= */
 
-        /* 語音文字框 */
         #voice-textarea {
             width: 100%; height: 200px; background: var(--input-bg); color: var(--text-main);
             border: 1px solid var(--card-border); border-radius: 16px; padding: 16px;
@@ -310,7 +272,6 @@
         }
         .copy-btn:active { transform: scale(0.96); opacity: 0.8; }
 
-        /* 風控遮罩 */
         #time-shield {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(35px) saturate(150%);
@@ -323,7 +284,6 @@
         .unlock-btn { background: #FFFFFF; color: #000000; border: none; padding: 16px 32px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
         .unlock-btn:active { transform: scale(0.96); }
 
-        /* 通知吐司 */
         #toast {
             position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
             background: #34C759; color: white; padding: 12px 24px; border-radius: 30px;
@@ -639,6 +599,3 @@
     </script>
 </body>
 </html>
-```
-
-老規矩，覆蓋後別忘了 **清快取、重加主畫面**！這次我把按鈕直接抽離玻璃層，Z 軸拉到極限高，也把點擊範圍再擴大了。請用力戳下去測試看看！如果計時器順利開始倒數，我們的作戰系統就正式宣告完美！
