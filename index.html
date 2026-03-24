@@ -20,13 +20,12 @@
             --accent-color: #007AFF;
             --glass-bg: rgba(242, 242, 247, 0.75);
             --glass-btn-bg: rgba(255, 255, 255, 0.85);
-            --input-bg: #F2F2F7;
+            --input-bg: #E5E5EA; /* 淺色模式搜尋框底色 */
             --btn-inactive: #E5E5EA;
             --pdf-bg: #E5E5EA;
             --inverse-text: #FFFFFF;
             --card-border: 1px solid transparent;
             --card-shadow: 0 8px 24px rgba(0,0,0,0.04);
-            /* 🌟 新增：骨架屏淺色變數 🌟 */
             --skeleton-base: #E5E5EA;
             --skeleton-shine: #F2F2F7;
             --glass-border: rgba(0, 0, 0, 0.05);
@@ -41,13 +40,12 @@
                 --accent-color: #0A84FF;
                 --glass-bg: rgba(0, 0, 0, 0.75);
                 --glass-btn-bg: rgba(28, 28, 30, 0.85);
-                --input-bg: #2C2C2E;
+                --input-bg: #2C2C2E; /* 深色模式搜尋框底色 */
                 --btn-inactive: #2C2C2E;
                 --pdf-bg: #2C2C2E;
                 --inverse-text: #000000;
                 --card-border: 1px solid rgba(255, 255, 255, 0.08);
                 --card-shadow: 0 8px 24px rgba(0,0,0,0.4);
-                /* 🌟 新增：骨架屏深色變數 🌟 */
                 --skeleton-base: #2C2C2E;
                 --skeleton-shine: #3A3A3C;
                 --glass-border: rgba(255, 255, 255, 0.1);
@@ -109,6 +107,7 @@
             text-align: center;
             margin-bottom: 24px;
             transition: box-shadow 0.3s, background 0.3s;
+            -webkit-appearance: none;
         }
         input[type="password"]:focus {
             outline: none;
@@ -136,7 +135,6 @@
             padding-bottom: 100px;
         }
 
-        /* 🌟 核心升級：加入 saturate(180%) 強化毛玻璃質感 🌟 */
         .nav-header {
             position: sticky;
             top: 0;
@@ -156,7 +154,7 @@
         }
 
         .category-scroll {
-            padding: 10px 24px 20px 24px;
+            padding: 10px 24px 16px 24px;
             display: flex;
             gap: 12px;
             overflow-x: auto;
@@ -177,6 +175,48 @@
         .cat-btn.active {
             background: var(--text-main);
             color: var(--inverse-text);
+        }
+        /* 🌟 UX修復：NEWS專屬活力橘邏輯，只有Active時才亮起 🌟 */
+        .cat-btn.news-btn.active {
+            background: #FF9500 !important;
+            color: #FFFFFF !important;
+        }
+
+        /* 🌟 核心新增：全局搜尋列美學 🌟 */
+        .search-container {
+            padding: 0 24px 20px 24px;
+            width: 100%;
+        }
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-sub);
+            font-size: 18px;
+            pointer-events: none;
+        }
+        .search-bar {
+            width: 100%;
+            padding: 14px 16px 14px 42px;
+            background-color: var(--input-bg);
+            border: var(--card-border);
+            border-radius: 16px;
+            color: var(--text-main);
+            font-size: 16px;
+            transition: box-shadow 0.3s, background 0.3s;
+            -webkit-appearance: none;
+        }
+        .search-bar:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--accent-color);
+        }
+        .search-bar::placeholder {
+            color: var(--text-sub);
         }
 
         .content-grid {
@@ -200,7 +240,6 @@
             letter-spacing: -0.5px;
         }
 
-        /* 🌟 核心升級：骨架屏動畫 (Skeleton Loading) 🌟 */
         @keyframes skeleton-loading {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
@@ -212,7 +251,6 @@
             padding-bottom: 56.25%; 
             height: 0;
             border-radius: 16px;
-            /* 骨架屏光影底色 */
             background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-shine) 50%, var(--skeleton-base) 75%);
             background-size: 200% 100%;
             animation: skeleton-loading 1.5s infinite linear;
@@ -221,8 +259,6 @@
             -webkit-transform: translateZ(0); 
             transform: translateZ(0);
         }
-        
-        /* 影片讀取完成前設為透明，完成後淡入 */
         .media-container iframe {
             position: absolute;
             top: 0;
@@ -308,7 +344,6 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.06);
         }
 
-        /* 🌟 核心升級：返回鍵毛玻璃與光影強化 🌟 */
         .floating-back {
             position: fixed;
             bottom: 40px;
@@ -353,11 +388,18 @@
         </div>
         
         <div class="category-scroll">
-            <button class="cat-btn active" onclick="filterCategory('news')" style="background-color: #FF9500 !important; color: white !important;">NEWS</button>
-            <button class="cat-btn" onclick="filterCategory('fmbos')">FMBos 系統</button>
-            <button class="cat-btn" onclick="filterCategory('podcast')">Podcast</button>
-            <button class="cat-btn" onclick="filterCategory('project')">企劃專題</button>
-            <button class="cat-btn" onclick="filterCategory('all')">全部內容</button>
+            <button class="cat-btn news-btn active" onclick="selectCategory('news', this)">NEWS</button>
+            <button class="cat-btn" onclick="selectCategory('fmbos', this)">FMBos 系統</button>
+            <button class="cat-btn" onclick="selectCategory('podcast', this)">Podcast</button>
+            <button class="cat-btn" onclick="selectCategory('project', this)">企劃專題</button>
+            <button class="cat-btn" onclick="selectCategory('all', this)">全部內容</button>
+        </div>
+
+        <div class="search-container">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-bar" placeholder="搜尋專題、影片或關鍵字...">
+            </div>
         </div>
 
         <div class="content-grid">
@@ -480,13 +522,18 @@
 
     <script>
         const SECRET_PWD = "8888";
+        let currentCategory = 'news'; // 預設類別
 
         function checkPassword() {
             const input = document.getElementById("pwd").value;
             if (input === SECRET_PWD) {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
-                filterCategory('news'); 
+                
+                // 登入後自動執行第一次篩選
+                const newsBtn = document.querySelector('.news-btn');
+                selectCategory('news', newsBtn); 
+                
                 document.getElementById("pwd").blur();
             } else {
                 document.getElementById("error-msg").style.display = "block";
@@ -500,22 +547,48 @@
             }
         });
 
-        function filterCategory(category) {
+        // 🌟 核心修改：分類點擊邏輯分離 🌟
+        function selectCategory(category, btnElement) {
+            currentCategory = category;
+            
+            // UI 按鈕狀態更新
             const btns = document.querySelectorAll('.cat-btn');
             btns.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
 
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                if (category === 'all' || card.classList.contains(category)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+            // 切換分類時清空搜尋列，避免邏輯打架
+            document.getElementById('searchInput').value = '';
+            
+            applyFilters();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // 🌟 核心新增：即時檢索與過濾引擎 🌟
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.card-title').innerText.toLowerCase();
+                const matchesSearch = title.includes(searchTerm);
+                const matchesCategory = (currentCategory === 'all' || card.classList.contains(currentCategory));
+                
+                if (searchTerm !== '') {
+                    // 如果有輸入關鍵字，無視分類資料夾，執行全局檢索
+                    card.style.display = matchesSearch ? 'block' : 'none';
+                } else {
+                    // 沒搜尋時，乖乖按照上面的分類按鈕顯示
+                    card.style.display = matchesCategory ? 'block' : 'none';
+                }
+            });
+        }
+
+        // 綁定搜尋框的輸入事件 (打字瞬間即時觸發)
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+        // PDF 渲染邏輯
         let pdfRendered = false;
         function loadPDF() {
             if (pdfRendered) return;
