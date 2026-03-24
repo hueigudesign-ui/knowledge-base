@@ -12,25 +12,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
     <style>
-        /* 🌟 核心升級：導入 CSS 變數與智慧深色模式 🌟 */
         :root {
-            /* 預設淺色模式 (Light Mode) */
             --bg-color: #F2F2F7;
             --card-bg: #FFFFFF;
             --text-main: #000000;
             --text-sub: #8E8E93;
             --accent-color: #007AFF;
-            --glass-bg: rgba(242, 242, 247, 0.85);
-            --glass-btn-bg: rgba(255, 255, 255, 0.9);
+            --glass-bg: rgba(242, 242, 247, 0.75);
+            --glass-btn-bg: rgba(255, 255, 255, 0.85);
             --input-bg: #F2F2F7;
             --btn-inactive: #E5E5EA;
             --pdf-bg: #E5E5EA;
             --inverse-text: #FFFFFF;
             --card-border: 1px solid transparent;
             --card-shadow: 0 8px 24px rgba(0,0,0,0.04);
+            /* 🌟 新增：骨架屏淺色變數 🌟 */
+            --skeleton-base: #E5E5EA;
+            --skeleton-shine: #F2F2F7;
+            --glass-border: rgba(0, 0, 0, 0.05);
         }
 
-        /* 偵測 Apple 設備深色模式 (Dark Mode) */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-color: #000000;
@@ -38,14 +39,18 @@
                 --text-main: #FFFFFF;
                 --text-sub: #98989D;
                 --accent-color: #0A84FF;
-                --glass-bg: rgba(0, 0, 0, 0.85);
-                --glass-btn-bg: rgba(28, 28, 30, 0.9);
+                --glass-bg: rgba(0, 0, 0, 0.75);
+                --glass-btn-bg: rgba(28, 28, 30, 0.85);
                 --input-bg: #2C2C2E;
                 --btn-inactive: #2C2C2E;
                 --pdf-bg: #2C2C2E;
                 --inverse-text: #000000;
                 --card-border: 1px solid rgba(255, 255, 255, 0.08);
                 --card-shadow: 0 8px 24px rgba(0,0,0,0.4);
+                /* 🌟 新增：骨架屏深色變數 🌟 */
+                --skeleton-base: #2C2C2E;
+                --skeleton-shine: #3A3A3C;
+                --glass-border: rgba(255, 255, 255, 0.1);
             }
         }
 
@@ -71,7 +76,6 @@
             justify-content: center;
             align-items: center;
             padding: 24px;
-            /* 移除寫死的白色，改吃系統變數 */
             background-color: var(--bg-color); 
         }
         .login-content {
@@ -132,12 +136,14 @@
             padding-bottom: 100px;
         }
 
+        /* 🌟 核心升級：加入 saturate(180%) 強化毛玻璃質感 🌟 */
         .nav-header {
             position: sticky;
             top: 0;
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-bottom: 1px solid var(--glass-border);
             padding: calc(20px + env(safe-area-inset-top)) 24px 10px 24px;
             z-index: 100;
             transition: background 0.3s;
@@ -194,19 +200,29 @@
             letter-spacing: -0.5px;
         }
 
-        /* 16:9 鋼鐵框架 */
+        /* 🌟 核心升級：骨架屏動畫 (Skeleton Loading) 🌟 */
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
         .media-container {
             position: relative;
             width: 100%;
             padding-bottom: 56.25%; 
             height: 0;
             border-radius: 16px;
-            background: #1C1C1E;
+            /* 骨架屏光影底色 */
+            background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-shine) 50%, var(--skeleton-base) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite linear;
             overflow: hidden;
             z-index: 1;
             -webkit-transform: translateZ(0); 
             transform: translateZ(0);
         }
+        
+        /* 影片讀取完成前設為透明，完成後淡入 */
         .media-container iframe {
             position: absolute;
             top: 0;
@@ -219,6 +235,8 @@
             min-height: 100%;
             border: none;
             pointer-events: auto;
+            opacity: 0; 
+            transition: opacity 0.5s ease-in-out;
         }
 
         .featured-card {
@@ -226,7 +244,6 @@
             color: #FFF;
             cursor: pointer;
             transition: transform 0.2s;
-            /* 避免深色模式下邊界不清晰 */
             border: 1px solid rgba(255,255,255,0.1); 
         }
         .featured-card:active { transform: scale(0.97); }
@@ -291,16 +308,17 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.06);
         }
 
+        /* 🌟 核心升級：返回鍵毛玻璃與光影強化 🌟 */
         .floating-back {
             position: fixed;
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--glass-btn-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
             color: var(--text-main);
-            border: var(--card-border);
+            border: 1px solid var(--glass-border);
             padding: 16px 32px;
             border-radius: 30px;
             font-size: 16px;
@@ -346,12 +364,12 @@
             
             <div class="card news">
                 <h3 class="card-title">勞務承攬合約：關鍵檢查清單</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1koJU95J-Ys7INKNLiV_Z2gSLEn_a-lZv/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1koJU95J-Ys7INKNLiV_Z2gSLEn_a-lZv/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card news">
                 <h3 class="card-title">員工轉承攬：如何管理法律風險</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1rRuQFzCc7oYaFjUeZYpARrCHJQGyx96P/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1rRuQFzCc7oYaFjUeZYpARrCHJQGyx96P/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card fmbos featured-card" onclick="openDetailView()">
@@ -365,67 +383,67 @@
             
             <div class="card fmbos">
                 <h3 class="card-title">人體作業系統：拆解個人行動框架</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1x7GXBYKyCQoZdpaAx6X9DQ58W247v4ah/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1x7GXBYKyCQoZdpaAx6X9DQ58W247v4ah/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card fmbos">
                 <h3 class="card-title">升級你的大腦：Markdown_思維系統</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1nElNdcb4mKEo9Q8BZ33QtOxdLkyG-HwV/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1nElNdcb4mKEo9Q8BZ33QtOxdLkyG-HwV/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card fmbos">
                 <h3 class="card-title">Markdown_心智模型：一套讓你思緒、表達更清晰的系統</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1PIj-yfRGT39p11nloC9Gs9hzET1umC6-/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1PIj-yfRGT39p11nloC9Gs9hzET1umC6-/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card podcast">
                 <h3 class="card-title">打造專業藍圖：一個職涯轉型的個案研究</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1kozYaMR-BPyo9R2AQ6A7RJXsmQVeq2Nd/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1kozYaMR-BPyo9R2AQ6A7RJXsmQVeq2Nd/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card podcast">
                 <h3 class="card-title">打造你的AI人設：一個成長框架</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1FdKbaz8ZHAcl-XiXl0ueYhggUJVjQPr1/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1FdKbaz8ZHAcl-XiXl0ueYhggUJVjQPr1/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card podcast">
                 <h3 class="card-title">職場邊界藝術：過濾噪音_保護專注力</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/17tRsepc555QQlAx89dUKXwSrfzbJvpL1/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/17tRsepc555QQlAx89dUKXwSrfzbJvpL1/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card podcast">
                 <h3 class="card-title">時間vs金錢</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1VihFiOUV0B4ehr7MvlEaPoRJbT3AuUn_/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1VihFiOUV0B4ehr7MvlEaPoRJbT3AuUn_/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card project">
                 <h3 class="card-title">如何駕馭你的AI：有效協作指南</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1jDlOCQ1sv2fyRYA5qjqUDB_x5WNqwOpU/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1jDlOCQ1sv2fyRYA5qjqUDB_x5WNqwOpU/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card project">
                 <h3 class="card-title">團隊新作業系統：三位一體_×_六大引擎</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1DuBkoYeNlhx-LsFGAB_P2O2vBvs4R0Ho/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1DuBkoYeNlhx-LsFGAB_P2O2vBvs4R0Ho/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card project">
                 <h3 class="card-title">智慧公司：從拖把到軍規級AI</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1mPzbf9Hgu7f-uPa8kVT-o4lAX2Z1r_Qm/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1mPzbf9Hgu7f-uPa8kVT-o4lAX2Z1r_Qm/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card project">
                 <h3 class="card-title">設計思考：解鎖稅務與傳承對話</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1krywU-xinWMH49h9s4fMWHoATUVIh-qj/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1krywU-xinWMH49h9s4fMWHoATUVIh-qj/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card project">
                 <h3 class="card-title">家庭風險管理：一個全新視角</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/11LkHNcbxN0U179UFB7Tv-IU81hknqECa/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/11LkHNcbxN0U179UFB7Tv-IU81hknqECa/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card project">
                 <h3 class="card-title">從報價員到顧問：B2B案件致勝心法</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1w5WAA59qDBjIYkzSbZSxEkRRCXfKX7_6/preview" scrolling="no" allow="autoplay; fullscreen"></iframe></div>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1w5WAA59qDBjIYkzSbZSxEkRRCXfKX7_6/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
         </div>
@@ -440,7 +458,7 @@
 
             <div class="section-header">🎬 完整實錄影片</div>
             <div class="media-container">
-                <iframe src="https://drive.google.com/file/d/1dDIL1EiDYnH7CmiLixMiwU00hlcBoirr/preview" scrolling="no" allow="autoplay; fullscreen"></iframe>
+                <iframe src="https://drive.google.com/file/d/1dDIL1EiDYnH7CmiLixMiwU00hlcBoirr/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe>
             </div>
 
             <div class="section-header">📄 專案簡報[上下滑動閱讀]</div>
