@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="知識庫">
     <link rel="apple-touch-icon" href="ai-team-icon.jpg">
-    <title>硬硬知識庫 v35.0</title>
+    <title>硬硬知識庫 v36.0</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
@@ -65,16 +65,18 @@
             overflow-x: hidden; transition: background-color 0.3s, color 0.3s;
         }
 
-        /* 🌟 版本號標籤美學 🌟 */
+        /* 🌟 核心修復：版本號視覺降噪，改為 Apple 徽章風格 🌟 */
         .version-tag {
-            font-size: 14px;
-            font-weight: 800;
-            color: #FF9500;
-            background: rgba(255, 149, 0, 0.1);
-            padding: 4px 8px;
-            border-radius: 8px;
-            vertical-align: middle;
-            margin-left: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-sub);
+            border: 1px solid var(--text-sub);
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-left: 12px;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            opacity: 0.7;
         }
 
         #login-screen {
@@ -197,14 +199,19 @@
         .pdf-page-canvas { width: 100%; border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: block; }
         .resource-img { width: 100%; border-radius: 16px; box-shadow: var(--card-shadow); margin-bottom: 30px; }
 
-        /* 🌟 防坍塌與防干擾重構 🌟 */
+        /* ========================================================================= */
+        /* 🌟 核心修復：強制 64px 等高，像素級完美對齊 🌟 */
+        /* ========================================================================= */
+
+        /* 1. 番茄鐘面板 (鎖死 64px 高度) */
         #pomodoro-widget {
             position: fixed; 
-            bottom: calc(50px + env(safe-area-inset-bottom)); 
+            bottom: calc(40px + env(safe-area-inset-bottom)); 
             right: 20px; 
+            height: 64px; /* 強制鎖死高度 */
             border: 1px solid var(--glass-border); 
-            border-radius: 30px; 
-            padding: 10px 14px;
+            border-radius: 32px; 
+            padding: 0 16px; /* 移除上下 padding，靠 flex 置中 */
             display: none; 
             align-items: center; 
             gap: 10px; 
@@ -217,25 +224,26 @@
             content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: var(--glass-btn-bg);
             backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border-radius: 30px; z-index: -1;
+            border-radius: 32px; z-index: -1;
         }
         
+        /* 2. 語音按鈕 (鎖死 64px 寬高，完美正圓) */
         #voice-btn {
             position: fixed; 
-            bottom: calc(50px + env(safe-area-inset-bottom)); 
+            bottom: calc(40px + env(safe-area-inset-bottom)); 
             left: 20px; 
-            width: 56px; 
-            height: 56px; 
+            width: 64px;  /* 與番茄鐘同寬同高 */
+            height: 64px; 
             padding: 0; 
             border: 1px solid var(--glass-border); 
-            border-radius: 28px; 
+            border-radius: 32px; 
             display: none; 
             align-items: center; 
             justify-content: center; 
             box-shadow: var(--card-shadow); 
             z-index: 9999; 
             cursor: pointer; 
-            font-size: 24px; 
+            font-size: 26px; /* 放大麥克風 icon */
             line-height: 1; 
             background: transparent; 
             touch-action: manipulation;
@@ -245,7 +253,7 @@
             content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: var(--glass-btn-bg);
             backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border-radius: 28px; z-index: -1;
+            border-radius: 32px; z-index: -1;
         }
         #voice-btn:active { transform: scale(0.92); }
 
@@ -257,14 +265,15 @@
         
         .timer-btn { 
             position: relative; z-index: 10; background: var(--text-main); color: var(--inverse-text); 
-            border: none; padding: 12px 18px; border-radius: 14px; font-size: 14px; font-weight: 700; 
+            border: none; padding: 12px 18px; border-radius: 16px; font-size: 14px; font-weight: 700; 
             cursor: pointer; transition: transform 0.2s; touch-action: manipulation; 
         }
         .timer-btn.cool { background: #FF9500; color: #FFF; }
         .timer-btn.stop { background: transparent; color: var(--text-main); border: 2px solid var(--text-sub); padding: 10px 16px; }
         .timer-btn:active { transform: scale(0.92); }
 
-        /* 語音文字框 */
+        /* ========================================================================= */
+
         #voice-textarea {
             width: 100%; height: 200px; background: var(--input-bg); color: var(--text-main);
             border: 1px solid var(--card-border); border-radius: 16px; padding: 16px;
@@ -278,7 +287,6 @@
         }
         .copy-btn:active { transform: scale(0.96); opacity: 0.8; }
 
-        /* 風控遮罩 */
         #time-shield {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(35px) saturate(150%);
@@ -291,7 +299,6 @@
         .unlock-btn { background: #FFFFFF; color: #000000; border: none; padding: 16px 32px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
         .unlock-btn:active { transform: scale(0.96); }
 
-        /* 通知吐司 */
         #toast {
             position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
             background: #34C759; color: white; padding: 12px 24px; border-radius: 30px;
@@ -305,7 +312,7 @@
     <div id="login-screen">
         <div class="login-content">
             <div class="login-icon">🔒</div>
-            <h2>硬硬知識庫 <span class="version-tag">v35.0</span></h2>
+            <h2>硬硬知識庫 <span class="version-tag">v36.0</span></h2>
             <p>請輸入發財密碼解鎖</p>
             <input type="password" id="pwd" placeholder="Enter Password">
             <button class="auth-btn" onclick="checkPassword()">解鎖進入</button>
@@ -315,7 +322,7 @@
 
     <div id="main-content">
         <div class="nav-header">
-            <h1>硬硬知識庫 <span class="version-tag">v35.0</span></h1>
+            <h1>硬硬知識庫 <span class="version-tag">v36.0</span></h1>
         </div>
         
         <div class="category-scroll">
@@ -477,17 +484,16 @@
         const SECRET_PWD = "8888";
         let currentCategory = 'news'; 
 
-        // --- 🌟 雙軌觸控防呆引擎 (解決 iOS 吃 Click Bug) 🌟 ---
         let isTouching = false;
 
         function handleTimerBtn(minutes, event) {
             if (event && event.type === 'touchend') {
-                event.preventDefault(); // 阻止產生後續的幽靈 click
+                event.preventDefault(); 
                 isTouching = true;
                 startTimer(minutes);
             } else if (event && event.type === 'click') {
                 if (!isTouching) startTimer(minutes);
-                isTouching = false; // 重置
+                isTouching = false; 
             }
         }
 
@@ -512,7 +518,6 @@
                 isTouching = false;
             }
         }
-        // --------------------------------------------------------
 
         let timerInterval;
         let timeRemaining = 0;
