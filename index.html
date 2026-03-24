@@ -29,7 +29,6 @@
             --skeleton-base: #E5E5EA;
             --skeleton-shine: #F2F2F7;
             --glass-border: rgba(0, 0, 0, 0.05);
-            /* 🌟 Quick Look 抽屜變數 🌟 */
             --sheet-bg: #FFFFFF;
             --sheet-overlay: rgba(0, 0, 0, 0.4);
             --drag-pill: #C7C7CC;
@@ -53,464 +52,197 @@
                 --skeleton-base: #2C2C2E;
                 --skeleton-shine: #3A3A3C;
                 --glass-border: rgba(255, 255, 255, 0.1);
-                /* 🌟 Quick Look 抽屜變數 🌟 */
                 --sheet-bg: #1C1C1E;
                 --sheet-overlay: rgba(0, 0, 0, 0.6);
                 --drag-pill: #48484A;
             }
         }
 
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
             background-color: var(--bg-color);
-            margin: 0;
-            padding: 0;
-            color: var(--text-main);
-            overflow-x: hidden;
-            transition: background-color 0.3s, color 0.3s;
+            margin: 0; padding: 0; color: var(--text-main);
+            overflow-x: hidden; transition: background-color 0.3s, color 0.3s;
         }
 
         #login-screen {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 24px;
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; padding: 24px;
             background-color: var(--bg-color); 
         }
-        .login-content {
-            width: 100%;
-            max-width: 340px;
-            text-align: center;
-        }
-        .login-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-        .login-content h2 {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin: 0 0 8px 0;
-        }
-        .login-content p {
-            color: var(--text-sub);
-            font-size: 15px;
-            margin-bottom: 32px;
-        }
+        .login-content { width: 100%; max-width: 340px; text-align: center; }
+        .login-icon { font-size: 48px; margin-bottom: 16px; }
+        .login-content h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin: 0 0 8px 0; }
+        .login-content p { color: var(--text-sub); font-size: 15px; margin-bottom: 32px; }
         input[type="password"] {
-            width: 100%;
-            padding: 18px;
-            background: var(--input-bg);
-            color: var(--text-main);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            font-size: 17px;
-            text-align: center;
-            margin-bottom: 24px;
-            transition: box-shadow 0.3s, background 0.3s;
+            width: 100%; padding: 18px; background: var(--input-bg);
+            color: var(--text-main); border: 1px solid var(--card-border);
+            border-radius: 16px; font-size: 17px; text-align: center;
+            margin-bottom: 24px; transition: box-shadow 0.3s, background 0.3s;
             -webkit-appearance: none;
         }
-        input[type="password"]:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px var(--accent-color);
-        }
+        input[type="password"]:focus { outline: none; box-shadow: 0 0 0 2px var(--accent-color); }
         .auth-btn {
-            background: var(--text-main);
-            color: var(--inverse-text);
-            border: none;
-            width: 100%;
-            padding: 18px;
-            border-radius: 16px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, background 0.2s, color 0.3s;
+            background: var(--text-main); color: var(--inverse-text); border: none;
+            width: 100%; padding: 18px; border-radius: 16px; font-size: 17px;
+            font-weight: 600; cursor: pointer; transition: transform 0.2s, background 0.2s, color 0.3s;
         }
         .auth-btn:active { transform: scale(0.96); opacity: 0.8; }
 
-        #main-content {
-            display: none;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            padding-bottom: 100px;
-        }
+        #main-content { display: none; width: 100%; max-width: 800px; margin: 0 auto; padding-bottom: 120px; }
 
         .nav-header {
-            position: sticky;
-            top: 0;
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border-bottom: 1px solid var(--glass-border);
-            padding: calc(20px + env(safe-area-inset-top)) 24px 10px 24px;
-            z-index: 100;
-            transition: background 0.3s;
+            position: sticky; top: 0; background: var(--glass-bg);
+            backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-bottom: 1px solid var(--glass-border); padding: calc(20px + env(safe-area-inset-top)) 24px 10px 24px;
+            z-index: 100; transition: background 0.3s;
         }
-        .nav-header h1 {
-            font-size: 34px;
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin: 0;
-        }
+        .nav-header h1 { font-size: 34px; font-weight: 800; letter-spacing: -1px; margin: 0; }
 
         .category-scroll {
-            padding: 10px 24px 16px 24px;
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            scrollbar-width: none; 
+            padding: 10px 24px 16px 24px; display: flex; gap: 12px;
+            overflow-x: auto; scrollbar-width: none; 
         }
         .category-scroll::-webkit-scrollbar { display: none; }
         .cat-btn {
-            background: var(--btn-inactive);
-            color: var(--text-main);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 15px;
-            font-weight: 600;
-            white-space: nowrap;
-            transition: all 0.3s ease;
+            background: var(--btn-inactive); color: var(--text-main); border: none;
+            padding: 10px 20px; border-radius: 20px; font-size: 15px; font-weight: 600;
+            white-space: nowrap; transition: all 0.3s ease;
         }
-        .cat-btn.active {
-            background: var(--text-main);
-            color: var(--inverse-text);
-        }
-        .cat-btn.news-btn.active {
-            background: #FF9500 !important;
-            color: #FFFFFF !important;
-        }
+        .cat-btn.active { background: var(--text-main); color: var(--inverse-text); }
+        .cat-btn.news-btn.active { background: #FF9500 !important; color: #FFFFFF !important; }
 
-        .search-container {
-            padding: 0 24px 20px 24px;
-            width: 100%;
-        }
-        .search-wrapper {
-            position: relative;
-            width: 100%;
-        }
-        .search-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-sub);
-            font-size: 18px;
-            pointer-events: none;
-        }
+        .search-container { padding: 0 24px 20px 24px; width: 100%; }
+        .search-wrapper { position: relative; width: 100%; }
+        .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-sub); font-size: 18px; pointer-events: none; }
         .search-bar {
-            width: 100%;
-            padding: 14px 16px 14px 42px;
-            background-color: var(--input-bg);
-            border: var(--card-border);
-            border-radius: 16px;
-            color: var(--text-main);
-            font-size: 16px;
-            transition: box-shadow 0.3s, background 0.3s;
-            -webkit-appearance: none;
+            width: 100%; padding: 14px 16px 14px 42px; background-color: var(--input-bg);
+            border: var(--card-border); border-radius: 16px; color: var(--text-main);
+            font-size: 16px; transition: box-shadow 0.3s, background 0.3s; -webkit-appearance: none;
         }
-        .search-bar:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px var(--accent-color);
-        }
-        .search-bar::placeholder {
-            color: var(--text-sub);
-        }
+        .search-bar:focus { outline: none; box-shadow: 0 0 0 2px var(--accent-color); }
+        .search-bar::placeholder { color: var(--text-sub); }
 
-        .content-grid {
-            padding: 0 24px;
-        }
+        .content-grid { padding: 0 24px; }
         .card {
-            background: var(--card-bg);
-            border: var(--card-border);
-            border-radius: 24px;
-            padding: 20px;
-            margin-bottom: 24px;
-            box-shadow: var(--card-shadow);
-            display: none; 
+            background: var(--card-bg); border: var(--card-border); border-radius: 24px;
+            padding: 20px; margin-bottom: 24px; box-shadow: var(--card-shadow); display: none; 
             transition: background 0.3s, border 0.3s, box-shadow 0.3s;
         }
-        .card-title {
-            font-size: 20px;
-            font-weight: 700;
-            line-height: 1.3;
-            margin: 0 0 16px 0;
-            letter-spacing: -0.5px;
-        }
+        .card-title { font-size: 20px; font-weight: 700; line-height: 1.3; margin: 0 0 16px 0; letter-spacing: -0.5px; }
 
-        @keyframes skeleton-loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
+        @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
         .media-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; 
-            height: 0;
-            border-radius: 16px;
+            position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 16px;
             background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-shine) 50%, var(--skeleton-base) 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite linear;
-            overflow: hidden;
-            z-index: 1;
-            -webkit-transform: translateZ(0); 
-            transform: translateZ(0);
+            background-size: 200% 100%; animation: skeleton-loading 1.5s infinite linear;
+            overflow: hidden; z-index: 1; -webkit-transform: translateZ(0); transform: translateZ(0);
         }
         .media-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100% !important;
-            height: 100% !important;
-            max-width: 100%;
-            max-height: 100%;
-            min-width: 100%;
-            min-height: 100%;
-            border: none;
-            pointer-events: auto;
-            opacity: 0; 
-            transition: opacity 0.5s ease-in-out;
+            position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important;
+            max-width: 100%; max-height: 100%; min-width: 100%; min-height: 100%; border: none;
+            pointer-events: auto; opacity: 0; transition: opacity 0.5s ease-in-out;
         }
 
-        .featured-card {
-            background: linear-gradient(135deg, #000000 0%, #333333 100%);
-            color: #FFF;
-            cursor: pointer;
-            transition: transform 0.2s;
-            border: 1px solid rgba(255,255,255,0.1); 
-        }
+        .featured-card { background: linear-gradient(135deg, #000000 0%, #333333 100%); color: #FFF; cursor: pointer; transition: transform 0.2s; border: 1px solid rgba(255,255,255,0.1); }
         .featured-card:active { transform: scale(0.97); }
         .featured-card .card-title { color: #FFF; }
-        .featured-pill {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
+        .featured-pill { display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 12px; font-size: 13px; font-weight: 600; margin-bottom: 12px; }
 
-        /* 🌟 Phase 1: 懸浮番茄鐘風控面板 🌟 */
-        #pomodoro-widget {
-            position: fixed;
-            bottom: 40px;
-            right: 24px;
-            background: var(--glass-btn-bg);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 10px 16px;
-            display: none; 
-            align-items: center;
-            gap: 10px;
-            box-shadow: var(--card-shadow);
-            z-index: 999;
-            transition: all 0.3s ease;
+        /* 🌟 Phase 2: Quick Look 抽屜 🌟 */
+        #quick-look-overlay, #voice-buffer-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--sheet-overlay); z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
         }
-        .timer-display {
-            font-size: 16px;
-            font-weight: 700;
-            font-variant-numeric: tabular-nums;
-            letter-spacing: 1px;
-            color: var(--text-main);
-            min-width: 48px;
-            text-align: center;
-        }
-        .timer-btn {
-            background: var(--text-main);
-            color: var(--inverse-text);
-            border: none;
-            padding: 6px 12px;
-            border-radius: 14px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .timer-btn.cool {
-            background: #FF9500;
-            color: #FFF;
-        }
-        .timer-btn.stop {
-            background: transparent;
-            color: var(--text-main);
-            border: 1px solid var(--text-sub);
-            padding: 5px 10px;
-        }
-        .timer-btn:active { transform: scale(0.92); }
-
-        #time-shield {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(35px) saturate(150%);
-            -webkit-backdrop-filter: blur(35px) saturate(150%);
-            z-index: 9999;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 30px;
-            color: #FFFFFF;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        #time-shield h2 {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            letter-spacing: -0.5px;
-        }
-        #time-shield p {
-            font-size: 17px;
-            color: rgba(255,255,255,0.85);
-            line-height: 1.6;
-            margin-bottom: 40px;
-            max-width: 300px;
-        }
-        .unlock-btn {
-            background: #FFFFFF;
-            color: #000000;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .unlock-btn:active { transform: scale(0.96); }
-
-        /* 🌟 Phase 2: 戰略物資極速預覽 (Quick Look Bottom Sheet) 🌟 */
-        #quick-look-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--sheet-overlay);
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        #quick-look-sheet {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 88vh; /* 佔據畫面 88% 的高度 */
-            background: var(--sheet-bg);
-            border-radius: 32px 32px 0 0;
-            z-index: 2001;
-            transform: translateY(100%); /* 初始隱藏在底部 */
-            transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
-            display: flex;
-            flex-direction: column;
+        #quick-look-sheet, #voice-buffer-sheet {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: var(--sheet-bg);
+            border-radius: 32px 32px 0 0; z-index: 2001; transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1); display: flex; flex-direction: column;
             box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
         }
+        #quick-look-sheet { height: 88vh; }
+        #voice-buffer-sheet { height: 60vh; }
+
         .sheet-header {
-            position: sticky;
-            top: 0;
-            background: var(--sheet-bg);
-            border-radius: 32px 32px 0 0;
-            padding: 12px 24px 16px 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border-bottom: 1px solid var(--card-border);
-            z-index: 10;
+            position: sticky; top: 0; background: var(--sheet-bg); border-radius: 32px 32px 0 0;
+            padding: 12px 24px 16px 24px; display: flex; flex-direction: column; align-items: center;
+            border-bottom: 1px solid var(--card-border); z-index: 10;
         }
-        .drag-pill {
-            width: 40px;
-            height: 5px;
-            background: var(--drag-pill);
-            border-radius: 3px;
-            margin-bottom: 16px;
-        }
-        .sheet-header-content {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .sheet-title {
-            font-size: 20px;
-            font-weight: 800;
-            margin: 0;
-            color: var(--text-main);
-        }
+        .drag-pill { width: 40px; height: 5px; background: var(--drag-pill); border-radius: 3px; margin-bottom: 16px; }
+        .sheet-header-content { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+        .sheet-title { font-size: 20px; font-weight: 800; margin: 0; color: var(--text-main); }
         .close-sheet-btn {
-            background: var(--btn-inactive);
-            color: var(--text-main);
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 15px;
-            font-size: 14px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            background: var(--btn-inactive); color: var(--text-main); border: none; width: 30px; height: 30px;
+            border-radius: 15px; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer;
         }
-        .sheet-body {
-            flex: 1;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            padding: 24px;
-        }
-        .sheet-section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin: 24px 0 16px 0;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .sheet-section-title:first-child {
-            margin-top: 0;
-        }
+        .sheet-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 24px; }
+        .sheet-section-title { font-size: 18px; font-weight: 700; margin: 24px 0 16px 0; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+        .sheet-section-title:first-child { margin-top: 0; }
         
-        /* 承襲先前的 PDF 與圖紙設定，調整至抽屜內 */
-        .pdf-viewer-container {
-            width: 100%;
-            height: 450px;
-            background: var(--pdf-bg);
-            border-radius: 16px;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch; 
-            padding: 12px;
-            transition: background 0.3s;
+        .pdf-viewer-container { width: 100%; height: 450px; background: var(--pdf-bg); border-radius: 16px; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 12px; transition: background 0.3s; }
+        .pdf-page-canvas { width: 100%; border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: block; }
+        .resource-img { width: 100%; border-radius: 16px; box-shadow: var(--card-shadow); margin-bottom: 30px; }
+
+        /* 🌟 Phase 1: 番茄鐘面板 (右下) 🌟 */
+        #pomodoro-widget {
+            position: fixed; bottom: 40px; right: 24px; background: var(--glass-btn-bg);
+            backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--glass-border); border-radius: 30px; padding: 10px 16px;
+            display: none; align-items: center; gap: 10px; box-shadow: var(--card-shadow); z-index: 999; transition: all 0.3s ease;
         }
-        .pdf-page-canvas {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            display: block;
+        .timer-display { font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 1px; color: var(--text-main); min-width: 48px; text-align: center; }
+        .timer-btn { background: var(--text-main); color: var(--inverse-text); border: none; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
+        .timer-btn.cool { background: #FF9500; color: #FFF; }
+        .timer-btn.stop { background: transparent; color: var(--text-main); border: 1px solid var(--text-sub); padding: 5px 10px; }
+        .timer-btn:active { transform: scale(0.92); }
+
+        /* 🌟 Phase 3: 語音緩衝區按鈕 (左下) 🌟 */
+        #voice-btn {
+            position: fixed; bottom: 40px; left: 24px; background: var(--glass-btn-bg);
+            backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--glass-border); border-radius: 30px; padding: 12px 16px;
+            display: none; align-items: center; justify-content: center; box-shadow: var(--card-shadow); z-index: 999; cursor: pointer; transition: transform 0.2s;
+            font-size: 20px;
         }
-        .resource-img {
-            width: 100%;
-            border-radius: 16px;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 30px;
+        #voice-btn:active { transform: scale(0.92); }
+
+        /* 🌟 Phase 3: 語音文字框 🌟 */
+        #voice-textarea {
+            width: 100%; height: 200px; background: var(--input-bg); color: var(--text-main);
+            border: 1px solid var(--card-border); border-radius: 16px; padding: 16px;
+            font-size: 17px; line-height: 1.5; resize: none; outline: none; margin-bottom: 20px;
+            -webkit-appearance: none;
+        }
+        #voice-textarea::placeholder { color: var(--text-sub); }
+        .copy-btn {
+            background: var(--text-main); color: var(--inverse-text); border: none;
+            width: 100%; padding: 16px; border-radius: 16px; font-size: 17px; font-weight: 600;
+            cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .copy-btn:active { transform: scale(0.96); opacity: 0.8; }
+
+        /* 風控遮罩 */
+        #time-shield {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(35px) saturate(150%);
+            -webkit-backdrop-filter: blur(35px) saturate(150%); z-index: 9999; display: none;
+            flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            padding: 30px; color: #FFFFFF; opacity: 0; transition: opacity 0.5s ease;
+        }
+        #time-shield h2 { font-size: 32px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; }
+        #time-shield p { font-size: 17px; color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 40px; max-width: 300px; }
+        .unlock-btn { background: #FFFFFF; color: #000000; border: none; padding: 16px 32px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
+        .unlock-btn:active { transform: scale(0.96); }
+
+        /* 通知吐司 */
+        #toast {
+            position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
+            background: #34C759; color: white; padding: 12px 24px; border-radius: 30px;
+            font-size: 15px; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 10000; display: none; opacity: 0; transition: opacity 0.3s; pointer-events: none;
         }
     </style>
 </head>
@@ -548,7 +280,6 @@
         </div>
 
         <div class="content-grid">
-            
             <div class="card news">
                 <h3 class="card-title">勞務承攬合約：關鍵檢查清單</h3>
                 <div class="media-container"><iframe src="https://drive.google.com/file/d/1koJU95J-Ys7INKNLiV_Z2gSLEn_a-lZv/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
@@ -632,7 +363,6 @@
                 <h3 class="card-title">從報價員到顧問：B2B案件致勝心法</h3>
                 <div class="media-container"><iframe src="https://drive.google.com/file/d/1w5WAA59qDBjIYkzSbZSxEkRRCXfKX7_6/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
-
         </div>
     </div>
 
@@ -653,9 +383,7 @@
 
             <div class="section-header">📄 專案簡報 [上下滑動]</div>
             <div id="pdf-viewer" class="pdf-viewer-container">
-                <div id="pdf-loading" style="text-align: center; padding: 40px; color: var(--text-sub);">
-                    <p>引擎載入中...</p>
-                </div>
+                <div id="pdf-loading" style="text-align: center; padding: 40px; color: var(--text-sub);"><p>引擎載入中...</p></div>
             </div>
 
             <div class="section-header">💡 核心懶人包</div>
@@ -663,6 +391,25 @@
         </div>
     </div>
 
+    <div id="voice-buffer-overlay" onclick="closeVoiceBuffer()"></div>
+    <div id="voice-buffer-sheet">
+        <div class="sheet-header">
+            <div class="drag-pill"></div>
+            <div class="sheet-header-content">
+                <h3 class="sheet-title">🎙️ 戰後記憶倒出區</h3>
+                <button class="close-sheet-btn" onclick="closeVoiceBuffer()">✕</button>
+            </div>
+        </div>
+        <div class="sheet-body">
+            <p style="color: var(--text-sub); margin-top:0; margin-bottom: 16px; font-size: 14px;">點擊下方輸入框，使用鍵盤上的「麥克風」進行無腦速記。</p>
+            <textarea id="voice-textarea" placeholder="在這裡傾倒思緒..."></textarea>
+            <button class="copy-btn" onclick="copyVoiceText()">
+                📋 一鍵複製並收合
+            </button>
+        </div>
+    </div>
+
+    <div id="voice-btn" onclick="openVoiceBuffer()">🎙️</div>
     <div id="pomodoro-widget">
         <div class="timer-display" id="timer-text">25:00</div>
         <button class="timer-btn" onclick="startTimer(25)">戰鬥</button>
@@ -676,35 +423,23 @@
         <button class="unlock-btn" onclick="closeShield()">強制解除鎖定</button>
     </div>
 
+    <div id="toast">✅ 記憶碎片已複製到剪貼簿</div>
+
     <script>
         const SECRET_PWD = "8888";
         let currentCategory = 'news'; 
-
-        // --- 番茄鐘核心引擎 ---
-        let timerInterval;
-        let timeRemaining = 0;
 
         function startTimer(minutes) {
             clearInterval(timerInterval);
             timeRemaining = minutes * 60;
             updateTimerDisplay();
-            
             timerInterval = setInterval(() => {
-                timeRemaining--;
-                updateTimerDisplay();
-                
-                if (timeRemaining <= 0) {
-                    clearInterval(timerInterval);
-                    triggerShield();
-                }
+                timeRemaining--; updateTimerDisplay();
+                if (timeRemaining <= 0) { clearInterval(timerInterval); triggerShield(); }
             }, 1000);
         }
 
-        function stopTimer() {
-            clearInterval(timerInterval);
-            document.getElementById('timer-text').innerText = "25:00";
-        }
-
+        function stopTimer() { clearInterval(timerInterval); document.getElementById('timer-text').innerText = "25:00"; }
         function updateTimerDisplay() {
             const m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
             const s = (timeRemaining % 60).toString().padStart(2, '0');
@@ -713,139 +448,115 @@
 
         function triggerShield() {
             const shield = document.getElementById('time-shield');
-            shield.style.display = 'flex';
-            setTimeout(() => { shield.style.opacity = 1; }, 10); 
+            shield.style.display = 'flex'; setTimeout(() => { shield.style.opacity = 1; }, 10); 
             document.getElementById('timer-text').innerText = "00:00";
-            closeQuickLook(); // 如果抽屜打開著，強制關閉
+            closeQuickLook(); closeVoiceBuffer();
         }
-
         function closeShield() {
             const shield = document.getElementById('time-shield');
-            shield.style.opacity = 0;
-            setTimeout(() => { shield.style.display = 'none'; }, 500); 
+            shield.style.opacity = 0; setTimeout(() => { shield.style.display = 'none'; }, 500); 
         }
 
-        // --- 登入與導覽邏輯 ---
         function checkPassword() {
             const input = document.getElementById("pwd").value;
             if (input === SECRET_PWD) {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
-                
                 document.getElementById("pomodoro-widget").style.display = "flex";
-
+                document.getElementById("voice-btn").style.display = "flex"; // 顯示語音按鈕
                 const newsBtn = document.querySelector('.news-btn');
                 selectCategory('news', newsBtn); 
-                
                 document.getElementById("pwd").blur();
-            } else {
-                document.getElementById("error-msg").style.display = "block";
-            }
+            } else { document.getElementById("error-msg").style.display = "block"; }
         }
 
         document.getElementById("pwd").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                checkPassword();
-            }
+            if (event.key === "Enter") { event.preventDefault(); checkPassword(); }
         });
 
         function selectCategory(category, btnElement) {
             currentCategory = category;
-            
             const btns = document.querySelectorAll('.cat-btn');
             btns.forEach(btn => btn.classList.remove('active'));
-            if (btnElement) {
-                btnElement.classList.add('active');
-            }
-
+            if (btnElement) { btnElement.classList.add('active'); }
             document.getElementById('searchInput').value = '';
-            applyFilters();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            applyFilters(); window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function applyFilters() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const cards = document.querySelectorAll('.card');
-            
             cards.forEach(card => {
                 const title = card.querySelector('.card-title').innerText.toLowerCase();
                 const matchesSearch = title.includes(searchTerm);
                 const matchesCategory = (currentCategory === 'all' || card.classList.contains(currentCategory));
-                
-                if (searchTerm !== '') {
-                    card.style.display = matchesSearch ? 'block' : 'none';
-                } else {
-                    card.style.display = matchesCategory ? 'block' : 'none';
-                }
+                if (searchTerm !== '') { card.style.display = matchesSearch ? 'block' : 'none'; } 
+                else { card.style.display = matchesCategory ? 'block' : 'none'; }
             });
         }
-
         document.getElementById('searchInput').addEventListener('input', applyFilters);
 
-        // --- 🌟 Phase 2: Quick Look 引擎與 PDF 渲染 ---
         function openQuickLook() {
-            const overlay = document.getElementById('quick-look-overlay');
-            const sheet = document.getElementById('quick-look-sheet');
-            
-            overlay.style.pointerEvents = 'auto';
-            overlay.style.opacity = 1;
-            sheet.style.transform = 'translateY(0)';
-            
-            // 隱藏番茄鐘避免擋住內容
-            document.getElementById("pomodoro-widget").style.display = "none";
-            
+            const overlay = document.getElementById('quick-look-overlay'); const sheet = document.getElementById('quick-look-sheet');
+            overlay.style.pointerEvents = 'auto'; overlay.style.opacity = 1; sheet.style.transform = 'translateY(0)';
+            document.getElementById("pomodoro-widget").style.display = "none"; document.getElementById("voice-btn").style.display = "none";
             loadPDF();
         }
-
         function closeQuickLook() {
-            const overlay = document.getElementById('quick-look-overlay');
-            const sheet = document.getElementById('quick-look-sheet');
+            const overlay = document.getElementById('quick-look-overlay'); const sheet = document.getElementById('quick-look-sheet');
+            overlay.style.opacity = 0; overlay.style.pointerEvents = 'none'; sheet.style.transform = 'translateY(100%)';
+            document.getElementById("pomodoro-widget").style.display = "flex"; document.getElementById("voice-btn").style.display = "flex";
+        }
+
+        // 🌟 Phase 3: 語音緩衝區邏輯 🌟
+        function openVoiceBuffer() {
+            const overlay = document.getElementById('voice-buffer-overlay'); const sheet = document.getElementById('voice-buffer-sheet');
+            overlay.style.pointerEvents = 'auto'; overlay.style.opacity = 1; sheet.style.transform = 'translateY(0)';
+            document.getElementById("pomodoro-widget").style.display = "none"; document.getElementById("voice-btn").style.display = "none";
+        }
+        function closeVoiceBuffer() {
+            const overlay = document.getElementById('voice-buffer-overlay'); const sheet = document.getElementById('voice-buffer-sheet');
+            overlay.style.opacity = 0; overlay.style.pointerEvents = 'none'; sheet.style.transform = 'translateY(100%)';
+            document.getElementById("pomodoro-widget").style.display = "flex"; document.getElementById("voice-btn").style.display = "flex";
+        }
+        function copyVoiceText() {
+            const textarea = document.getElementById('voice-textarea');
+            if(textarea.value.trim() === "") { closeVoiceBuffer(); return; }
             
-            overlay.style.opacity = 0;
-            overlay.style.pointerEvents = 'none';
-            sheet.style.transform = 'translateY(100%)';
-            
-            // 恢復番茄鐘顯示
-            document.getElementById("pomodoro-widget").style.display = "flex";
+            navigator.clipboard.writeText(textarea.value).then(() => {
+                textarea.value = ""; // 清空內容
+                closeVoiceBuffer();
+                
+                // 顯示吐司通知
+                const toast = document.getElementById('toast');
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.opacity = 1; }, 10);
+                setTimeout(() => {
+                    toast.style.opacity = 0;
+                    setTimeout(() => { toast.style.display = 'none'; }, 300);
+                }, 2500);
+            });
         }
 
         let pdfRendered = false;
         function loadPDF() {
             if (pdfRendered) return;
-            
             const url = 'presentation.pdf';
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-            
-            const viewer = document.getElementById('pdf-viewer');
-            const loading = document.getElementById('pdf-loading');
-
+            const viewer = document.getElementById('pdf-viewer'); const loading = document.getElementById('pdf-loading');
             pdfjsLib.getDocument(url).promise.then(function(pdf) {
                 loading.style.display = 'none';
-                
                 for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                     pdf.getPage(pageNum).then(function(page) {
                         const viewport = page.getViewport({ scale: 1.5 });
-                        const canvas = document.createElement('canvas');
-                        const context = canvas.getContext('2d');
-                        
-                        canvas.height = viewport.height;
-                        canvas.width = viewport.width;
-                        canvas.className = 'pdf-page-canvas';
-                        
+                        const canvas = document.createElement('canvas'); const context = canvas.getContext('2d');
+                        canvas.height = viewport.height; canvas.width = viewport.width; canvas.className = 'pdf-page-canvas';
                         viewer.appendChild(canvas);
-
-                        const renderContext = {
-                            canvasContext: context,
-                            viewport: viewport
-                        };
-                        page.render(renderContext);
+                        page.render({ canvasContext: context, viewport: viewport });
                     });
                 }
                 pdfRendered = true;
-            }).catch(function(error) {
-                loading.innerHTML = '<p style="color:#FF3B30;">簡報載入失敗，請確認檔名</p>';
-            });
+            }).catch(function() { loading.innerHTML = '<p style="color:#FF3B30;">簡報載入失敗，請確認檔名</p>'; });
         }
     </script>
 </body>
