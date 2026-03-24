@@ -20,7 +20,7 @@
             --accent-color: #007AFF;
             --glass-bg: rgba(242, 242, 247, 0.75);
             --glass-btn-bg: rgba(255, 255, 255, 0.85);
-            --input-bg: #E5E5EA; /* 淺色模式搜尋框底色 */
+            --input-bg: #E5E5EA; 
             --btn-inactive: #E5E5EA;
             --pdf-bg: #E5E5EA;
             --inverse-text: #FFFFFF;
@@ -40,7 +40,7 @@
                 --accent-color: #0A84FF;
                 --glass-bg: rgba(0, 0, 0, 0.75);
                 --glass-btn-bg: rgba(28, 28, 30, 0.85);
-                --input-bg: #2C2C2E; /* 深色模式搜尋框底色 */
+                --input-bg: #2C2C2E; 
                 --btn-inactive: #2C2C2E;
                 --pdf-bg: #2C2C2E;
                 --inverse-text: #000000;
@@ -176,13 +176,11 @@
             background: var(--text-main);
             color: var(--inverse-text);
         }
-        /* 🌟 UX修復：NEWS專屬活力橘邏輯，只有Active時才亮起 🌟 */
         .cat-btn.news-btn.active {
             background: #FF9500 !important;
             color: #FFFFFF !important;
         }
 
-        /* 🌟 核心新增：全局搜尋列美學 🌟 */
         .search-container {
             padding: 0 24px 20px 24px;
             width: 100%;
@@ -367,6 +365,103 @@
             transition: background 0.3s, color 0.3s, border 0.3s;
         }
         .floating-back:active { transform: translateX(-50%) scale(0.95); }
+
+        /* 🌟 Phase 1: 懸浮番茄鐘風控面板 🌟 */
+        #pomodoro-widget {
+            position: fixed;
+            bottom: 40px;
+            right: 24px;
+            background: var(--glass-btn-bg);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 10px 16px;
+            display: none; /* 登入後才顯示 */
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--card-shadow);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+        .timer-display {
+            font-size: 16px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 1px;
+            color: var(--text-main);
+            min-width: 48px;
+            text-align: center;
+        }
+        .timer-btn {
+            background: var(--text-main);
+            color: var(--inverse-text);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .timer-btn.cool {
+            background: #FF9500;
+            color: #FFF;
+        }
+        .timer-btn.stop {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--text-sub);
+            padding: 5px 10px;
+        }
+        .timer-btn:active { transform: scale(0.92); }
+
+        /* 🌟 Phase 1: 極限風控毛玻璃遮罩 🌟 */
+        #time-shield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(35px) saturate(150%);
+            -webkit-backdrop-filter: blur(35px) saturate(150%);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            color: #FFFFFF;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #time-shield h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+        #time-shield p {
+            font-size: 17px;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 300px;
+        }
+        .unlock-btn {
+            background: #FFFFFF;
+            color: #000000;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .unlock-btn:active { transform: scale(0.96); }
     </style>
 </head>
 <body>
@@ -520,9 +615,67 @@
         </button>
     </div>
 
+    <div id="pomodoro-widget">
+        <div class="timer-display" id="timer-text">25:00</div>
+        <button class="timer-btn" onclick="startTimer(25)">戰鬥</button>
+        <button class="timer-btn cool" onclick="startTimer(5)">冷卻</button>
+        <button class="timer-btn stop" onclick="stopTimer()">⏹️</button>
+    </div>
+
+    <div id="time-shield">
+        <h2>🚨 風控上限抵達</h2>
+        <p>指揮官，單次 30 分鐘腦力負荷已達極限。請立即離座進入「人類發呆模式」，或交由分析師直接給出結論。</p>
+        <button class="unlock-btn" onclick="closeShield()">強制解除鎖定</button>
+    </div>
+
     <script>
         const SECRET_PWD = "8888";
-        let currentCategory = 'news'; // 預設類別
+        let currentCategory = 'news'; 
+
+        // --- 🌟 番茄鐘核心引擎 🌟 ---
+        let timerInterval;
+        let timeRemaining = 0;
+
+        function startTimer(minutes) {
+            clearInterval(timerInterval);
+            timeRemaining = minutes * 60;
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    triggerShield();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            document.getElementById('timer-text').innerText = "25:00";
+        }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+            const s = (timeRemaining % 60).toString().padStart(2, '0');
+            document.getElementById('timer-text').innerText = `${m}:${s}`;
+        }
+
+        function triggerShield() {
+            const shield = document.getElementById('time-shield');
+            shield.style.display = 'flex';
+            setTimeout(() => { shield.style.opacity = 1; }, 10); // 觸發動畫
+            document.getElementById('timer-text').innerText = "00:00";
+        }
+
+        function closeShield() {
+            const shield = document.getElementById('time-shield');
+            shield.style.opacity = 0;
+            setTimeout(() => { shield.style.display = 'none'; }, 500); // 動畫結束後隱藏
+        }
+        // ------------------------------
 
         function checkPassword() {
             const input = document.getElementById("pwd").value;
@@ -530,7 +683,9 @@
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
                 
-                // 登入後自動執行第一次篩選
+                // 🌟 登入後自動顯示風控面板 🌟
+                document.getElementById("pomodoro-widget").style.display = "flex";
+
                 const newsBtn = document.querySelector('.news-btn');
                 selectCategory('news', newsBtn); 
                 
@@ -547,25 +702,21 @@
             }
         });
 
-        // 🌟 核心修改：分類點擊邏輯分離 🌟
         function selectCategory(category, btnElement) {
             currentCategory = category;
             
-            // UI 按鈕狀態更新
             const btns = document.querySelectorAll('.cat-btn');
             btns.forEach(btn => btn.classList.remove('active'));
             if (btnElement) {
                 btnElement.classList.add('active');
             }
 
-            // 切換分類時清空搜尋列，避免邏輯打架
             document.getElementById('searchInput').value = '';
             
             applyFilters();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 🌟 核心新增：即時檢索與過濾引擎 🌟
         function applyFilters() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const cards = document.querySelectorAll('.card');
@@ -576,19 +727,15 @@
                 const matchesCategory = (currentCategory === 'all' || card.classList.contains(currentCategory));
                 
                 if (searchTerm !== '') {
-                    // 如果有輸入關鍵字，無視分類資料夾，執行全局檢索
                     card.style.display = matchesSearch ? 'block' : 'none';
                 } else {
-                    // 沒搜尋時，乖乖按照上面的分類按鈕顯示
                     card.style.display = matchesCategory ? 'block' : 'none';
                 }
             });
         }
 
-        // 綁定搜尋框的輸入事件 (打字瞬間即時觸發)
         document.getElementById('searchInput').addEventListener('input', applyFilters);
 
-        // PDF 渲染邏輯
         let pdfRendered = false;
         function loadPDF() {
             if (pdfRendered) return;
@@ -630,6 +777,8 @@
         function openDetailView() {
             document.getElementById("main-content").style.display = "none";
             document.getElementById("detail-view").style.display = "block";
+            // 隱藏番茄鐘，避免遮擋子頁面內容
+            document.getElementById("pomodoro-widget").style.display = "none";
             window.scrollTo({ top: 0, behavior: 'smooth' });
             loadPDF();
         }
@@ -637,6 +786,8 @@
         function closeDetailView() {
             document.getElementById("detail-view").style.display = "none";
             document.getElementById("main-content").style.display = "block";
+            // 返回主頁時重新顯示番茄鐘
+            document.getElementById("pomodoro-widget").style.display = "flex";
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
