@@ -29,6 +29,10 @@
             --skeleton-base: #E5E5EA;
             --skeleton-shine: #F2F2F7;
             --glass-border: rgba(0, 0, 0, 0.05);
+            /* 🌟 Quick Look 抽屜變數 🌟 */
+            --sheet-bg: #FFFFFF;
+            --sheet-overlay: rgba(0, 0, 0, 0.4);
+            --drag-pill: #C7C7CC;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -49,6 +53,10 @@
                 --skeleton-base: #2C2C2E;
                 --skeleton-shine: #3A3A3C;
                 --glass-border: rgba(255, 255, 255, 0.1);
+                /* 🌟 Quick Look 抽屜變數 🌟 */
+                --sheet-bg: #1C1C1E;
+                --sheet-overlay: rgba(0, 0, 0, 0.6);
+                --drag-pill: #48484A;
             }
         }
 
@@ -127,7 +135,7 @@
         }
         .auth-btn:active { transform: scale(0.96); opacity: 0.8; }
 
-        #main-content, #detail-view {
+        #main-content {
             display: none;
             width: 100%;
             max-width: 800px;
@@ -292,80 +300,6 @@
             margin-bottom: 12px;
         }
 
-        #detail-view {
-            display: none;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            padding-bottom: 100px;
-            padding-top: env(safe-area-inset-top);
-        }
-        .detail-hero {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 0 0 32px 32px;
-        }
-        .detail-body {
-            padding: 32px 24px;
-        }
-        .section-header {
-            font-size: 22px;
-            font-weight: 700;
-            margin: 40px 0 20px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .pdf-viewer-container {
-            width: 100%;
-            height: 500px;
-            background: var(--pdf-bg);
-            border-radius: 24px;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch; 
-            padding: 16px;
-            transition: background 0.3s;
-        }
-        .pdf-page-canvas {
-            width: 100%;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            display: block;
-        }
-
-        .resource-img {
-            width: 100%;
-            border-radius: 24px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-        }
-
-        .floating-back {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--glass-btn-bg);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            color: var(--text-main);
-            border: 1px solid var(--glass-border);
-            padding: 16px 32px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 700;
-            box-shadow: var(--card-shadow);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 1000;
-            transition: background 0.3s, color 0.3s, border 0.3s;
-        }
-        .floating-back:active { transform: translateX(-50%) scale(0.95); }
-
         /* 🌟 Phase 1: 懸浮番茄鐘風控面板 🌟 */
         #pomodoro-widget {
             position: fixed;
@@ -377,7 +311,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 30px;
             padding: 10px 16px;
-            display: none; /* 登入後才顯示 */
+            display: none; 
             align-items: center;
             gap: 10px;
             box-shadow: var(--card-shadow);
@@ -416,7 +350,6 @@
         }
         .timer-btn:active { transform: scale(0.92); }
 
-        /* 🌟 Phase 1: 極限風控毛玻璃遮罩 🌟 */
         #time-shield {
             position: fixed;
             top: 0;
@@ -462,6 +395,123 @@
             transition: transform 0.2s;
         }
         .unlock-btn:active { transform: scale(0.96); }
+
+        /* 🌟 Phase 2: 戰略物資極速預覽 (Quick Look Bottom Sheet) 🌟 */
+        #quick-look-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--sheet-overlay);
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #quick-look-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 88vh; /* 佔據畫面 88% 的高度 */
+            background: var(--sheet-bg);
+            border-radius: 32px 32px 0 0;
+            z-index: 2001;
+            transform: translateY(100%); /* 初始隱藏在底部 */
+            transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
+        }
+        .sheet-header {
+            position: sticky;
+            top: 0;
+            background: var(--sheet-bg);
+            border-radius: 32px 32px 0 0;
+            padding: 12px 24px 16px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            z-index: 10;
+        }
+        .drag-pill {
+            width: 40px;
+            height: 5px;
+            background: var(--drag-pill);
+            border-radius: 3px;
+            margin-bottom: 16px;
+        }
+        .sheet-header-content {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sheet-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0;
+            color: var(--text-main);
+        }
+        .close-sheet-btn {
+            background: var(--btn-inactive);
+            color: var(--text-main);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .sheet-body {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 24px;
+        }
+        .sheet-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 24px 0 16px 0;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sheet-section-title:first-child {
+            margin-top: 0;
+        }
+        
+        /* 承襲先前的 PDF 與圖紙設定，調整至抽屜內 */
+        .pdf-viewer-container {
+            width: 100%;
+            height: 450px;
+            background: var(--pdf-bg);
+            border-radius: 16px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch; 
+            padding: 12px;
+            transition: background 0.3s;
+        }
+        .pdf-page-canvas {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: block;
+        }
+        .resource-img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+        }
     </style>
 </head>
 <body>
@@ -509,12 +559,12 @@
                 <div class="media-container"><iframe src="https://drive.google.com/file/d/1rRuQFzCc7oYaFjUeZYpARrCHJQGyx96P/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
-            <div class="card fmbos featured-card" onclick="openDetailView()">
+            <div class="card fmbos featured-card" onclick="openQuickLook()">
                 <div class="featured-pill">專題報告</div>
                 <h2 class="card-title">打造「三位一體」數位作業系統</h2>
                 <p style="color: rgba(255,255,255,0.7); font-size: 15px; margin: 0 0 16px 0;">內含完整教學影片、實作簡報與視覺懶人包。</p>
                 <div style="background: rgba(255,255,255,0.15); padding: 14px; border-radius: 14px; text-align: center; font-weight: 600;">
-                    🩸 開始充血 🩸
+                    🩸 點擊極速預覽 🩸
                 </div>
             </div>
             
@@ -586,33 +636,31 @@
         </div>
     </div>
 
-    <div id="detail-view">
-        <img src="hero.jpg" alt="專案視覺" class="detail-hero">
-        
-        <div class="detail-body">
-            <h1 style="font-size: 32px; font-weight: 800; line-height: 1.2; margin: 0 0 10px 0;">打造「三位一體」數位作業系統</h1>
-            <p style="color: var(--text-sub); font-size: 16px; margin: 0;">FMBos 核心模組</p>
-
+    <div id="quick-look-overlay" onclick="closeQuickLook()"></div>
+    <div id="quick-look-sheet">
+        <div class="sheet-header">
+            <div class="drag-pill"></div>
+            <div class="sheet-header-content">
+                <h3 class="sheet-title">三位一體作業系統</h3>
+                <button class="close-sheet-btn" onclick="closeQuickLook()">✕</button>
+            </div>
+        </div>
+        <div class="sheet-body">
             <div class="section-header">🎬 完整實錄影片</div>
             <div class="media-container">
                 <iframe src="https://drive.google.com/file/d/1dDIL1EiDYnH7CmiLixMiwU00hlcBoirr/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe>
             </div>
 
-            <div class="section-header">📄 專案簡報[上下滑動閱讀]</div>
+            <div class="section-header">📄 專案簡報 [上下滑動]</div>
             <div id="pdf-viewer" class="pdf-viewer-container">
                 <div id="pdf-loading" style="text-align: center; padding: 40px; color: var(--text-sub);">
-                    <p>正在啟動渲染引擎載入簡報...</p>
+                    <p>引擎載入中...</p>
                 </div>
             </div>
 
             <div class="section-header">💡 核心懶人包</div>
             <img src="summary.jpg" alt="懶人包" class="resource-img">
         </div>
-
-        <button class="floating-back" onclick="closeDetailView()">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            返回總覽
-        </button>
     </div>
 
     <div id="pomodoro-widget">
@@ -632,7 +680,7 @@
         const SECRET_PWD = "8888";
         let currentCategory = 'news'; 
 
-        // --- 🌟 番茄鐘核心引擎 🌟 ---
+        // --- 番茄鐘核心引擎 ---
         let timerInterval;
         let timeRemaining = 0;
 
@@ -666,24 +714,24 @@
         function triggerShield() {
             const shield = document.getElementById('time-shield');
             shield.style.display = 'flex';
-            setTimeout(() => { shield.style.opacity = 1; }, 10); // 觸發動畫
+            setTimeout(() => { shield.style.opacity = 1; }, 10); 
             document.getElementById('timer-text').innerText = "00:00";
+            closeQuickLook(); // 如果抽屜打開著，強制關閉
         }
 
         function closeShield() {
             const shield = document.getElementById('time-shield');
             shield.style.opacity = 0;
-            setTimeout(() => { shield.style.display = 'none'; }, 500); // 動畫結束後隱藏
+            setTimeout(() => { shield.style.display = 'none'; }, 500); 
         }
-        // ------------------------------
 
+        // --- 登入與導覽邏輯 ---
         function checkPassword() {
             const input = document.getElementById("pwd").value;
             if (input === SECRET_PWD) {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
                 
-                // 🌟 登入後自動顯示風控面板 🌟
                 document.getElementById("pomodoro-widget").style.display = "flex";
 
                 const newsBtn = document.querySelector('.news-btn');
@@ -712,7 +760,6 @@
             }
 
             document.getElementById('searchInput').value = '';
-            
             applyFilters();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -735,6 +782,33 @@
         }
 
         document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+        // --- 🌟 Phase 2: Quick Look 引擎與 PDF 渲染 ---
+        function openQuickLook() {
+            const overlay = document.getElementById('quick-look-overlay');
+            const sheet = document.getElementById('quick-look-sheet');
+            
+            overlay.style.pointerEvents = 'auto';
+            overlay.style.opacity = 1;
+            sheet.style.transform = 'translateY(0)';
+            
+            // 隱藏番茄鐘避免擋住內容
+            document.getElementById("pomodoro-widget").style.display = "none";
+            
+            loadPDF();
+        }
+
+        function closeQuickLook() {
+            const overlay = document.getElementById('quick-look-overlay');
+            const sheet = document.getElementById('quick-look-sheet');
+            
+            overlay.style.opacity = 0;
+            overlay.style.pointerEvents = 'none';
+            sheet.style.transform = 'translateY(100%)';
+            
+            // 恢復番茄鐘顯示
+            document.getElementById("pomodoro-widget").style.display = "flex";
+        }
 
         let pdfRendered = false;
         function loadPDF() {
@@ -770,25 +844,8 @@
                 }
                 pdfRendered = true;
             }).catch(function(error) {
-                loading.innerHTML = '<p style="color:#FF3B30;">簡報載入失敗，請確認檔名是否為 presentation.pdf</p>';
+                loading.innerHTML = '<p style="color:#FF3B30;">簡報載入失敗，請確認檔名</p>';
             });
-        }
-
-        function openDetailView() {
-            document.getElementById("main-content").style.display = "none";
-            document.getElementById("detail-view").style.display = "block";
-            // 隱藏番茄鐘，避免遮擋子頁面內容
-            document.getElementById("pomodoro-widget").style.display = "none";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            loadPDF();
-        }
-
-        function closeDetailView() {
-            document.getElementById("detail-view").style.display = "none";
-            document.getElementById("main-content").style.display = "block";
-            // 返回主頁時重新顯示番茄鐘
-            document.getElementById("pomodoro-widget").style.display = "flex";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
