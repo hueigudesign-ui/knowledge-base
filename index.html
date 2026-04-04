@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="知識庫">
     <link rel="apple-touch-icon" href="ai-team-icon.jpg">
-    <title>硬硬知識庫 v40.0</title>
+    <title>硬硬知識庫 v41.0</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
@@ -193,7 +193,7 @@
         .pdf-page-canvas { width: 100%; border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: block; }
         .resource-img { width: 100%; border-radius: 16px; box-shadow: var(--card-shadow); margin-bottom: 30px; }
 
-        /* 一體化戰術底座 (Unified Dynamic Dock) */
+        /* 一體化戰術底座 */
         #bottom-dock {
             position: fixed; 
             bottom: calc(32px + env(safe-area-inset-bottom)); 
@@ -278,7 +278,7 @@
     <div id="login-screen">
         <div class="login-content">
             <div class="login-icon">🔒</div>
-            <h2>硬硬知識庫 <span class="version-tag">v40.0</span></h2>
+            <h2>硬硬知識庫 <span class="version-tag">v41.0</span></h2>
             <p>請輸入發財密碼解鎖</p>
             <input type="password" id="pwd" placeholder="Enter Password">
             <button class="auth-btn" onclick="checkPassword()">解鎖進入</button>
@@ -288,7 +288,7 @@
 
     <div id="main-content">
         <div class="nav-header">
-            <h1>硬硬知識庫 <span class="version-tag">v40.0</span></h1>
+            <h1>硬硬知識庫 <span class="version-tag">v41.0</span></h1>
         </div>
         
         <div class="category-scroll">
@@ -309,28 +309,38 @@
         <div class="content-grid">
             
             <div class="card news">
+                <h3 class="card-title">顧問式服務思維升級：大師課</h3>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/16zAh08Qsa5R9aky0pXSztMdVlPCd1hHI/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
+            </div>
+
+            <div class="card news">
+                <h3 class="card-title">從銷售到塑造人生：重塑專家價值</h3>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1cY__t_WjIcY0a-YRsRWZ9Q5resBjHopq/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
+            </div>
+
+            <div class="card news">
+                <h3 class="card-title">臻潔淨科技：一個傳統產業的_AI_轉型之路</h3>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1AZRJfcdeuCEPgfzY64SvPFyYgLH8yrAK/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
+            </div>
+
+            <div class="card news">
+                <h3 class="card-title">親人、朋友與金錢</h3>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1yqiOb7vOA0EX7xQVzrkJ1879vBVGljVc/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
+            </div>
+
+            <div class="card news">
+                <h3 class="card-title">從一人軍隊到_AI_系統：工作流程革命</h3>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1DyjoeCgf6-5Un9p7MsBlmzVHUseOf9ba/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
+            </div>
+
+            <div class="card news">
+                <h3 class="card-title">數據如何讓你的公司更賺錢</h3>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1kH7c79kRuz835xFb06l-qHzleBRs8MaS/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
+            </div>
+
+            <div class="card fmbos">
                 <h3 class="card-title">如何投資你的時間，不只花掉它</h3>
                 <div class="media-container"><iframe src="https://drive.google.com/file/d/1OO0ECYRydo2UMmhnv7-ywVa4IuJUXmgH/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
-            </div>
-
-            <div class="card news">
-                <h3 class="card-title">解構三分鐘風險簡報</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1C46ylvVw1qtbFnaEOgRBMpQqtraQ_0og/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
-            </div>
-
-            <div class="card news">
-                <h3 class="card-title">從助理到軍師：超前部署模式</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1uHHKRu4dTcjxI10ZAxPHFUBT3e3Q9gHX/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
-            </div>
-
-            <div class="card news">
-                <h3 class="card-title">Moon_專案：執行力個案研究</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/1lAXUrx_fZw5jjP3cLB-KmKCG0ZcXyeTD/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
-            </div>
-
-            <div class="card news">
-                <h3 class="card-title">一個家庭的財務藍圖：從拼圖到宏圖</h3>
-                <div class="media-container"><iframe src="https://drive.google.com/file/d/11ZoO0FLkZ82_PwvhVnMmQOpeNLzsYTCs/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card fmbos featured-card" onclick="openQuickLook()">
@@ -390,6 +400,26 @@
             <div class="card podcast">
                 <h3 class="card-title">職場邊界藝術：過濾噪音_保護專注力</h3>
                 <div class="media-container"><iframe src="https://drive.google.com/file/d/17tRsepc555QQlAx89dUKXwSrfzbJvpL1/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
+            </div>
+
+            <div class="card project">
+                <h3 class="card-title">解構三分鐘風險簡報</h3>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1C46ylvVw1qtbFnaEOgRBMpQqtraQ_0og/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
+            </div>
+
+            <div class="card project">
+                <h3 class="card-title">從助理到軍師：超前部署模式</h3>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1uHHKRu4dTcjxI10ZAxPHFUBT3e3Q9gHX/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
+            </div>
+
+            <div class="card project">
+                <h3 class="card-title">Moon_專案：執行力個案研究</h3>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/1lAXUrx_fZw5jjP3cLB-KmKCG0ZcXyeTD/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
+            </div>
+
+            <div class="card project">
+                <h3 class="card-title">一個家庭的財務藍圖：從拼圖到宏圖</h3>
+                <div class="media-container"><iframe src="https://drive.google.com/file/d/11ZoO0FLkZ82_PwvhVnMmQOpeNLzsYTCs/preview" scrolling="no" allow="autoplay; fullscreen" onload="this.style.opacity=1"></iframe></div>
             </div>
 
             <div class="card project">
@@ -483,7 +513,7 @@
     <div id="toast">✅ 記憶碎片已複製到剪貼簿</div>
 
     <script>
-        const SECRET_PWD = "9999";
+        const SECRET_PWD = "8888";
         let currentCategory = 'news'; 
 
         let isTouching = false;
